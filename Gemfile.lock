@@ -112,6 +112,7 @@ GEM
     nio4r (2.5.7)
     nokogiri (1.11.3-x86_64-linux)
       racc (~> 1.4)
+    open-uri (0.1.0)
     pg (1.2.3)
     pry (0.13.1)
       coderay (~> 1.1)
@@ -229,6 +230,8 @@ DEPENDENCIES
   font-awesome-sass
   jbuilder (~> 2.7)
   listen (~> 3.3)
+  nokogiri (~> 1.11, >= 1.11.3)
+  open-uri (~> 0.1.0)
   pg (~> 1.1)
   pry-byebug
   pry-rails

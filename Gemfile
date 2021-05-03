@@ -31,6 +31,8 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'autoprefixer-rails'
 gem 'font-awesome-sass'
 gem 'simple_form'
+gem 'nokogiri', '~> 1.11', '>= 1.11.3'
+gem 'open-uri', '~> 0.1.0'
 
 group :development, :test do
   gem 'pry-byebug'

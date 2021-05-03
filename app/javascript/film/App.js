@@ -36,7 +36,7 @@ const App = () => {
     const q = getQueryString(yearFrom, yearTo, genres, rating);
     const BASE_URL = "https://www.imdb.com/search/title/";
 
-    console.log(BASE_URL + q);
+    console.log(BASE_URL + q); // do post request here
   }
 
   return (
