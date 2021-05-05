@@ -1,12 +1,13 @@
 class Api::V1::FilmsController < Api::V1::BaseController
   def search
-    url = "https://www.imdb.com/search/title/?title_type=feature&release_date=2020-01-01,2021-01-01&user_rating=1.0,&genres=animation"
-    # puts params[:url]
+    # url = "https://www.imdb.com/search/title/?title_type=feature&release_date=2020-01-01,2021-01-01&user_rating=1.0,&genres=animation"
+
+    url = params[:url]
 
     html_file = URI.open(url).read
     html_doc = Nokogiri::HTML(html_file)
 
-    film_hashes = []
+    film_hashes_array = []
 
     html_doc.search('.lister-item').each do |film|
       title = film.search('.lister-item-content h3 a').text.strip
@@ -25,9 +26,12 @@ class Api::V1::FilmsController < Api::V1::BaseController
         poster_url: poster_url
       }
 
-      film_hashes << film_hash
+      film_hashes_array << film_hash
+      
     end
 
-    film_hashes
+    puts film_hashes_array
+    render json: film_hashes_array
   end
+
 end
