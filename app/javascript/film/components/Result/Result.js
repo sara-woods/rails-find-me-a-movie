@@ -2,8 +2,7 @@ import React from "react";
 import './Result.css';
 
 const Result = (props) => {
-  if (!props.movie) return null;
-
+  
   const { title, year, rating, length, genres } = props.movie;
 
   return (

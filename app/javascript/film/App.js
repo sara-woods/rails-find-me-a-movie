@@ -1,3 +1,4 @@
+import { data } from "jquery";
 import React, {useState} from "react";
 import './App.css';
 import Form from "./components/Form/Form";
@@ -5,8 +6,9 @@ import Result from "./components/Result/Result";
 import {moviesData}  from "./Movies";
 
 const App = () => {
-  const [movies, setMovies] = useState();
+  const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState();
+  const [error, setError] = useState(null);
 
   const getQueryString = (yearFrom, yearTo, genres, rating) => {
     let url = "?title_type=feature";
@@ -44,17 +46,34 @@ const App = () => {
   }
 
   const postUrl = async (url) => {
-    const response = await fetch("http://localhost:3000/api/v1/search", {
-      method: "POST",
-      body: JSON.stringify({url}),
-      headers: {
-        "Content-Type": "application/json"
+    console.log(url)
+    setError(null);
+
+    try {
+      const response = await fetch("http://localhost:3000/api/v1/search", {
+        method: "POST",
+        body: JSON.stringify({url}),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
       }
-    })
-    
-    const data = await response.json();
-    setMovies(data);
-    chooseMovie(data);
+      
+      const data = await response.json();
+
+      if (data.length === 0 ) {
+        throw new Error("No movies were found!");
+      }
+
+      setMovies(data);
+      chooseMovie(data);
+    } catch (errorThrown) {
+      setError(errorThrown.message);
+    }
+
   }
 
   const chooseMovie = (moviesData) => {
@@ -66,7 +85,8 @@ const App = () => {
     <div className="App">
       <h1>Find me a movie</h1>
       <Form onSubmit={findMovies}/>
-      <Result movie={selectedMovie}/>
+      {selectedMovie && <Result movie={selectedMovie} />}
+      {error && <p>{error}</p>}
     </div>
   );
 }
