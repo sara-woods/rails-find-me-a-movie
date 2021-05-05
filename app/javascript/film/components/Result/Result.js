@@ -3,7 +3,7 @@ import './Result.css';
 
 const Result = (props) => {
   
-  const { title, year, rating, length, genres } = props.movie;
+  const { title, year, rating, length, genres, description } = props.movie;
 
   return (
     <div>
@@ -13,6 +13,7 @@ const Result = (props) => {
       <h2>{rating}</h2>
       <h2>{length}</h2>
       <h2>{genres}</h2>
+      <h2>{description}</h2>
     </div>
   );
 }
