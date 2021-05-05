@@ -20,9 +20,11 @@ class Api::V1::FilmsController < Api::V1::BaseController
       description = film.search('.lister-item-content p:nth-of-type(2)')&.text.strip
 
       description = "" if description.match?(/Directors?:/)
+      id = movie_url.match(/\/title\/(.+)\//)[1]
       movie_url = "https://www.imdb.com#{movie_url}"      
 
       film_hash = {
+        id: id,
         title: title,
         year: year,
         rating: rating,

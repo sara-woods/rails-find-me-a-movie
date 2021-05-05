@@ -15,6 +15,7 @@ const Result = (props) => {
       <h2>{length}</h2>
       <h2>{genres}</h2>
       <h2>{description}</h2>
+      {props.src && <img src={props.src}/>}
     </div>
   );
 }

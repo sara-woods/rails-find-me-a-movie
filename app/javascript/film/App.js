@@ -4,11 +4,13 @@ import './App.css';
 import Form from "./components/Form/Form";
 import Result from "./components/Result/Result";
 import {moviesData}  from "./Movies";
+require('dotenv').config();
 
 const App = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState();
   const [error, setError] = useState(null);
+  const [src, setSrc] = useState(null);
 
   const getQueryString = (yearFrom, yearTo, genres, rating) => {
     let url = "?title_type=feature";
@@ -46,7 +48,6 @@ const App = () => {
   }
 
   const postUrl = async (url) => {
-    console.log(url)
     setError(null);
 
     try {
@@ -79,13 +80,26 @@ const App = () => {
   const chooseMovie = (moviesData) => {
     const rand = Math.floor(Math.random() * moviesData.length);
     setSelectedMovie(moviesData[rand]);
+    getMoviePoster(moviesData[rand]);
+  }
+
+  const getMoviePoster = async (movie) => {
+    setSrc(null);
+    
+    const url = `http://img.omdbapi.com/?apikey=${process.env.POSTER_API_KEY}&i=${movie.id}`;
+    const response = await fetch(url);
+
+    if (response.ok) {       
+      const blob = await response.blob();
+      setSrc(URL.createObjectURL(blob));
+    }
   }
 
   return (
     <div className="App">
       <h1>Find me a movie</h1>
       <Form onSubmit={findMovies}/>
-      {selectedMovie && <Result movie={selectedMovie} />}
+      {selectedMovie && <Result movie={selectedMovie} src={src}/>}
       {error && <p>{error}</p>}
     </div>
   );
