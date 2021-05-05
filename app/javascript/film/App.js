@@ -51,7 +51,7 @@ const App = () => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3000/api/v1/search", {
+      const response = await fetch("/api/v1/search", {
         method: "POST",
         body: JSON.stringify({url}),
         headers: {
