@@ -5,7 +5,7 @@ import Result from "./components/Result/Result";
 import {moviesData}  from "./Movies";
 
 const App = () => {
-  const [movies, setMovies] = useState(moviesData);
+  const [movies, setMovies] = useState();
   const [selectedMovie, setSelectedMovie] = useState();
 
   const getQueryString = (yearFrom, yearTo, genres, rating) => {
@@ -40,31 +40,26 @@ const App = () => {
     const q = getQueryString(yearFrom, yearTo, genres, rating);
     const BASE_URL = "https://www.imdb.com/search/title/";
     
-    // postUrl(BASE_URL + q);
-    chooseMovie();
+    postUrl(BASE_URL + q);
   }
 
-  const postUrl = (url) => {
-    console.log(url);
-    fetch("http://localhost:3000/api/v1/search", {
+  const postUrl = async (url) => {
+    const response = await fetch("http://localhost:3000/api/v1/search", {
       method: "POST",
       body: JSON.stringify({url}),
       headers: {
         "Content-Type": "application/json"
       }
-    }).then((response) => {
-      return response.json();
     })
-    .then((data) => {
-      console.log(data);
-      setMovies(data);
-      chooseMovie();
-    })
+    
+    const data = await response.json();
+    setMovies(data);
+    chooseMovie(data);
   }
 
-  const chooseMovie = () => {
-    const rand = Math.floor(Math.random() * movies.length);
-    setSelectedMovie(movies[rand]);
+  const chooseMovie = (moviesData) => {
+    const rand = Math.floor(Math.random() * moviesData.length);
+    setSelectedMovie(moviesData[rand]);
   }
 
   return (
