@@ -11,7 +11,7 @@ class Api::V1::FilmsController < Api::V1::BaseController
 
     html_doc.search('.lister-item').each do |film|
       title = film.search('.lister-item-content h3 a')&.text.strip
-      year = film.search('.lister-item-year')&.text&.gsub(/[()]/, '')
+      year = film.search('.lister-item-year')&.text&.match(/\d+/)[0]
       poster_url = film.search('.lister-item-image a img')&.attribute('src')&.value
       rating = film.search('.ratings-imdb-rating')&.attribute('data-value')&.value
       length = film.search('.runtime')&.text.strip
