@@ -16,9 +16,11 @@ class Api::V1::FilmsController < Api::V1::BaseController
       rating = film.search('.ratings-imdb-rating')&.attribute('data-value')&.value
       length = film.search('.runtime')&.text.strip
       genres = film.search('.genre')&.text.strip
+      movie_url = film.search('.lister-item-header a')&.attribute('href')&.value
       description = film.search('.lister-item-content p:nth-of-type(2)')&.text.strip
 
       description = "" if description.match?(/Directors?:/)
+      movie_url = "https://www.imdb.com#{movie_url}"      
 
       film_hash = {
         title: title,
@@ -27,7 +29,8 @@ class Api::V1::FilmsController < Api::V1::BaseController
         length: length,
         genres: genres,
         poster_url: poster_url,
-        description: description
+        description: description,
+        movie_url: movie_url
       }
 
       film_hashes_array << film_hash
