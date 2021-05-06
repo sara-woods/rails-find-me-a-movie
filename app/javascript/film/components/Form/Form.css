@@ -1,6 +1,4 @@
-
-
-label {
-  /* font-family: 'Lato', sans-serif; */
-  /* font-weight: 700; */
+.form-container {
+  width: 200px;
+  margin: 0 auto;
 }

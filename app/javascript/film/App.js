@@ -43,7 +43,6 @@ const App = () => {
   const findMovies = (yearFrom, yearTo, genres, rating) => {
     const q = getQueryString(yearFrom, yearTo, genres, rating);
     const BASE_URL = "https://www.imdb.com/search/title/";
-    
     postUrl(BASE_URL + q);
   }
 
@@ -97,8 +96,9 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>Find me a movie</h1>
+      <h1>PICK ME A MOVIE</h1>
       <Form onSubmit={findMovies}/>
+      <button className="btn btn-danger mt-3">Filter</button>
       {selectedMovie && <Result movie={selectedMovie} src={src}/>}
       {error && <p>{error}</p>}
     </div>
