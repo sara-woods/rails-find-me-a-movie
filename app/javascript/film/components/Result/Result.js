@@ -1,21 +1,28 @@
 import React from "react";
-import './Result.css';
 
 const Result = (props) => {
   const { title, year, rating, length, genres, description, movie_url } = props.movie;
 
+  const styles = {
+    backgroundImage: `url(${props.src})`
+  }
+
   return (
-    <div>
-      <h1>Result</h1>
-      <a href={movie_url} target="_blank" rel="noreferrer noopener">
-        <h2>{title}</h2>
-      </a>
-      <h2>{year}</h2>
-      <h2>{rating}</h2>
-      <h2>{length}</h2>
-      <h2>{genres}</h2>
-      <h2>{description}</h2>
-      {props.src && <img src={props.src}/>}
+    <div className="result-container d-flex">
+      <div className="movie-poster-container" style={styles}>
+      </div>
+      <div className="movie-info">
+        <a href={movie_url} target="_blank" rel="noreferrer noopener">
+          <h2>{title.toUpperCase()}</h2>
+        </a>
+        <p>{year} | {rating} | {length}</p>
+        <div className="d-flex">
+          {genres.map((genre) => <p className="genre">{genre}</p>)}
+        </div>
+        
+        <p>{description}</p>
+        <a href={movie_url} target="_blank" rel="noreferrer noopener"><button className="btn btn-primary mt-3 btn-read-more">Read more</button></a>
+      </div>
     </div>
   );
 }

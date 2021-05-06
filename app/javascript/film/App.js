@@ -1,49 +1,59 @@
 import { data } from "jquery";
 import React, {useState} from "react";
-import './App.css';
 import Form from "./components/Form/Form";
 import Result from "./components/Result/Result";
 import {moviesData}  from "./Movies";
 require('dotenv').config();
 
 const App = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(moviesData);
   const [selectedMovie, setSelectedMovie] = useState();
   const [error, setError] = useState(null);
   const [src, setSrc] = useState(null);
+  const [showFilter, setShowFilter] = useState(false);
+  const [filterData, setFilterData] = useState({});
 
-  const getQueryString = (yearFrom, yearTo, genres, rating) => {
+
+  const getQueryString = (filterHash) => {
+    console.log(filterHash)
     let url = "?title_type=feature";
 
-    if (yearFrom !== "" || yearTo !== "") {
+    if (filterHash.yearFrom !== "" || filterHash.yearTo !== "") {
       url += `&release_date=`
 
-      if (yearFrom !== "") {
-        url += `${yearFrom}-01-01`
+      if (filterHash.yearFrom !== "") {
+        url += `${filterHash.yearFrom}-01-01`
       }
 
       url += ","
 
-      if (yearTo !== "") {
-        url += `${yearTo}-01-01`
+      if (filterHash.yearTo !== "") {
+        url += `${filterHash.yearTo}-01-01`
       }
     }
 
-    if (rating !== "") {
-      url += `&user_rating=${rating}.0,`
+    if (filterHash.rating !== "") {
+      url += `&user_rating=${filterHash.rating}.0,`
     }
 
-    if (genres.length !== 0) {
-      url += `&genres=${genres.join()}`
+    if (filterHash.genres && filterHash.genres.length !== 0) {
+      url += `&genres=${filterHash.genres.join()}`
     }
 
     return url;
   }
 
-  const findMovies = (yearFrom, yearTo, genres, rating) => {
-    const q = getQueryString(yearFrom, yearTo, genres, rating);
+  const newFilterDataHandler = (yearFrom, yearTo, genres, rating) => {
+    setFilterData({yearFrom, yearTo, genres, rating});
+    findMovies({yearFrom, yearTo, genres, rating});
+    setShowFilter(false);
+  }
+
+  const findMovies = (data) => {
+    const q = getQueryString(data);
     const BASE_URL = "https://www.imdb.com/search/title/";
-    postUrl(BASE_URL + q);
+    // postUrl(BASE_URL + q);
+    chooseMovie(moviesData);
   }
 
   const postUrl = async (url) => {
@@ -70,6 +80,7 @@ const App = () => {
 
       setMovies(data);
       chooseMovie(data);
+      
     } catch (errorThrown) {
       setError(errorThrown.message);
     }
@@ -79,6 +90,7 @@ const App = () => {
   const chooseMovie = (moviesData) => {
     const rand = Math.floor(Math.random() * moviesData.length);
     setSelectedMovie(moviesData[rand]);
+    console.log(selectedMovie)
     getMoviePoster(moviesData[rand]);
   }
 
@@ -94,11 +106,22 @@ const App = () => {
     }
   }
 
+  const showFilterHandler = () => {
+    setShowFilter(true);
+  }
+
+  const onCloseHandler = () => {
+    setShowFilter(false);
+  }
+
   return (
-    <div className="App">
+    <div className="app">
       <h1>PICK ME A MOVIE</h1>
-      <Form onSubmit={findMovies}/>
-      <button className="btn btn-danger mt-3">Filter</button>
+      {showFilter && <Form onSubmit={newFilterDataHandler} filterData={filterData} onClose={onCloseHandler} />}
+      <div className="movie-controls d-flex flex-column">
+        <button onClick={findMovies.bind(this, filterData)} className="btn btn-primary mt-3">Generate</button>
+        <button onClick={showFilterHandler} className="btn btn-outline-primary mt-3"><span>Filter</span></button>
+      </div>
       {selectedMovie && <Result movie={selectedMovie} src={src}/>}
       {error && <p>{error}</p>}
     </div>

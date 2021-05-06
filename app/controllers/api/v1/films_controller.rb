@@ -19,7 +19,8 @@ class Api::V1::FilmsController < Api::V1::BaseController
 
       description = "" if description.match?(/Directors?:/)
       id = movie_url.match(/\/title\/(.+)\//)[1]
-      movie_url = "https://www.imdb.com#{movie_url}"      
+      movie_url = "https://www.imdb.com#{movie_url}"
+      genres = genres.split(", ")      
 
       film_hash = {
         id: id,
