@@ -74,27 +74,25 @@ const Form = (props) => {
           <div className="form-group">
             <label htmlFor="genres">Genres</label>
             <select className="form-control" onChange={genreChangedHandler} id="genres" multiple={true} value={genres} >
-              <option value="action">Action</option>
-              <option value="adventure">Adventure</option>
-              <option value="animation">Animation</option>
-              <option value="biography">Biography</option>
-              <option value="comedy">Comedy</option>
-              <option value="crime">Crime</option>
-              <option value="documentary">Documentary</option>
-              <option value="drama">Drama</option>
-              <option value="family">Family</option>
-              <option value="fantasy">Fantasy</option>
-              <option value="film-noir">Film-Noir</option>
-              <option value="history">History</option>
-              <option value="horror">Horror</option>
-              <option value="musical">Musical</option>
-              <option value="mystery">Mystery</option>
-              <option value="romance">Romance</option>
-              <option value="sci-fi">Sci-Fi</option>
+              <option value="28">Action</option>
+              <option value="12">Adventure</option>
+              <option value="16">Animation</option>
+              <option value="35">Comedy</option>
+              <option value="80">Crime</option>
+              <option value="99">Documentary</option>
+              <option value="18">Drama</option>
+              <option value="10751">Family</option>
+              <option value="14">Fantasy</option>
+              <option value="36">History</option>
+              <option value="27">Horror</option>
+              <option value="10402">Musical</option>
+              <option value="9648">Mystery</option>
+              <option value="10749">Romance</option>
+              <option value="878-fi">Sci-Fi</option>
               <option value="sport">Sport</option>
-              <option value="thriller">Thriller</option>
-              <option value="war">War</option>
-              <option value="western">Western</option>
+              <option value="53">Thriller</option>
+              <option value="19752">War</option>
+              <option value="37">Western</option>
             </select>
           </div>
 

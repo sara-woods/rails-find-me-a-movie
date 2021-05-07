@@ -1,10 +1,13 @@
 import React from "react";
 
 const Result = (props) => {
-  const { title, year, rating, length, genres, description, movie_url } = props.movie;
+  const { title, year, rating, genres, description, movie_url, id, poster_path, backdrop_path } = props.movie;
+
+  const hours = Math.floor(props.runtime / 60);
+  const minutes = props.runtime % 60;
 
   const styles = {
-    backgroundImage: `url(${props.src})`
+    backgroundImage: `url(https://image.tmdb.org/t/p/w500/${poster_path})`
   }
 
   return (
@@ -15,13 +18,13 @@ const Result = (props) => {
         <a href={movie_url} target="_blank" rel="noreferrer noopener">
           <h2>{title.toUpperCase()}</h2>
         </a>
-        <p>{year} | {rating} | {length}</p>
+        <p>{year.substr(0,4)} | {rating} | {hours}h {minutes}min</p>
         <div className="d-flex">
-          {genres.map((genre) => <p className="genre">{genre}</p>)}
+          {genres.map((genre) => <p key={genre} className="genre">{genre}</p>)}
         </div>
         
         <p>{description}</p>
-        <a href={movie_url} target="_blank" rel="noreferrer noopener"><button className="btn btn-primary mt-3 btn-read-more">Read more</button></a>
+        <a href={`https://www.youtube.com/watch?v=${props.trailer}`} target="_blank" rel="noreferrer noopener"><button className="btn btn-primary mt-3 btn-read-more">View trailer</button></a>
       </div>
     </div>
   );
