@@ -12,7 +12,7 @@ const Result = (props) => {
   }
 
   return (
-    <div className="result-container d-flex mt-4">
+    <div className="result-container d-flex mt-4 mb-5">
       <div className="movie-poster-container" style={styles}>
       </div>
       <div className="movie-info">

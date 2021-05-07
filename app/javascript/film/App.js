@@ -53,7 +53,7 @@ const App = () => {
 
   const findMovies = (data) => {
     const q = getQueryString(data);
-    const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=true&page=1`;
+    const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=1`;
     getMovies(BASE_URL + q);
   }
 
@@ -105,28 +105,28 @@ const App = () => {
     setShowFilter(false);
   }
 
-  const getPopular = async () => {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&language=en-US`);
-    const data = await response.json();
-    const transformedMovies = data.results.map((movie) => {
-      return {
-        id: movie.id,
-        title: movie.title,
-        description: movie.overview,
-        rating: movie.vote_average,
-        genres: movie.genre_ids,
-        length: null,
-        poster_path: movie.poster_path,
-        backdrop_path: movie.backdrop_path,
-        year: movie.release_date
-      }
-    })
+  // const getPopular = async () => {
+  //   const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&language=en-US`);
+  //   const data = await response.json();
+  //   const transformedMovies = data.results.map((movie) => {
+  //     return {
+  //       id: movie.id,
+  //       title: movie.title,
+  //       description: movie.overview,
+  //       rating: movie.vote_average,
+  //       genres: movie.genre_ids,
+  //       length: null,
+  //       poster_path: movie.poster_path,
+  //       backdrop_path: movie.backdrop_path,
+  //       year: movie.release_date
+  //     }
+  //   })
     
-    setPopular(transformedMovies[0]);
-    getRunTime(transformedMovies[0].id);
-    getTrailer(transformedMovies[0].id);
-    setSelectedMovie(transformedMovies[0]);
-  }
+  //   setPopular(transformedMovies[0]);
+  //   getRunTime(transformedMovies[0].id);
+  //   getTrailer(transformedMovies[0].id);
+  //   setSelectedMovie(transformedMovies[0]);
+  // }
 
   return (
     <div className="app">
