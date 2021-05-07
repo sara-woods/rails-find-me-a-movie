@@ -1,4 +1,5 @@
 import React from "react";
+import { genresIds } from "../../Genres";
 
 const Result = (props) => {
   const { title, year, rating, genres, description, movie_url, id, poster_path, backdrop_path } = props.movie;
@@ -11,7 +12,7 @@ const Result = (props) => {
   }
 
   return (
-    <div className="result-container d-flex">
+    <div className="result-container d-flex mt-4">
       <div className="movie-poster-container" style={styles}>
       </div>
       <div className="movie-info">
@@ -19,8 +20,8 @@ const Result = (props) => {
           <h2>{title.toUpperCase()}</h2>
         </a>
         <p>{year.substr(0,4)} | {rating} | {hours}h {minutes}min</p>
-        <div className="d-flex">
-          {genres.map((genre) => <p key={genre} className="genre">{genre}</p>)}
+        <div className="d-flex flex-wrap">
+          {genres.map((genre) => <p key={genre} className="genre">{genresIds[genre]}</p>)}
         </div>
         
         <p>{description}</p>

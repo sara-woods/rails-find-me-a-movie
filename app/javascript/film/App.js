@@ -18,7 +18,6 @@ const App = () => {
 
 
   const getQueryString = (filterHash) => {
-    console.log(filterHash)
     let url = "";
 
     if (filterHash.yearFrom !== undefined || filterHash.yearTo !== undefined) {

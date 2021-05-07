@@ -13,6 +13,16 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="d-flex flex-column min-vh-100">
+      <div class="flex-grow-1">
+        <%= yield %>
+      </div>
+      <footer class="d-flex justify-content-center">
+        <div class="d-flex flex-column text-center align-items-center">
+          <p>This product uses the TMDb API but is not endorsed or certified by TMDb.</p>
+          <img class="footer-logo" src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_1-8ba2ac31f354005783fab473602c34c3f4fd207150182061e425d366e4f34596.svg"/>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>
