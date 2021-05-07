@@ -116,11 +116,11 @@ const App = () => {
 
   return (
     <div className="app">
-      <h1>PICK ME A MOVIE</h1>
+      <h1>WHAT MOVIE?</h1>
       {showFilter && <Form onSubmit={newFilterDataHandler} filterData={filterData} onClose={onCloseHandler} />}
       <div className="movie-controls d-flex flex-column">
-        <button onClick={findMovies.bind(this, filterData)} className="btn btn-primary mt-3">Generate</button>
-        <button onClick={showFilterHandler} className="btn btn-outline-primary mt-3"><span>Filter</span></button>
+        <button onClick={findMovies.bind(this, filterData)} className="btn btn-primary mt-3">GENERATE</button>
+        <button onClick={showFilterHandler} className="btn btn-outline-primary mt-3"><span>FILTER</span></button>
       </div>
       {selectedMovie && <Result movie={selectedMovie} src={src}/>}
       {error && <p>{error}</p>}

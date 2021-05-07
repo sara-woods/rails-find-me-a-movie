@@ -99,8 +99,8 @@ const Form = (props) => {
           </div>
 
          
-            <button className="btn btn-primary btn-block" type="submit">Generate</button>
-            <button className="btn btn-outline-primary btn-block" onClick={props.onClose}>Cancel</button>
+            <button className="btn btn-primary btn-block" type="submit">GENERATE</button>
+            <button className="btn btn-outline-primary btn-block" onClick={props.onClose}>CANCEL</button>
         
         </form>
       </div>
