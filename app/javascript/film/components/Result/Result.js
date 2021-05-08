@@ -7,12 +7,18 @@ const Result = (props) => {
   const hours = Math.floor(props.runtime / 60);
   const minutes = props.runtime % 60;
 
-  const styles = {
+  let styles = {
     backgroundImage: `url(https://image.tmdb.org/t/p/w500/${poster_path})`
+  }
+  console.log(window.innerWidth)
+  if (window.innerWidth < 600) {
+    styles = {
+      backgroundImage: `url(https://image.tmdb.org/t/p/w500/${backdrop_path})`
+    }
   }
 
   return (
-    <div className="result-container d-flex mt-4 mb-5">
+    <div className="result-container mt-4 mb-5">
       <div className="movie-poster-container" style={styles}>
       </div>
       <div className="movie-info">

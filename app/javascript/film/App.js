@@ -1,9 +1,9 @@
-import { data } from "jquery";
+require('dotenv').config();
+// import { data } from "jquery";
 import React, {useState} from "react";
 import Form from "./components/Form/Form";
 import Result from "./components/Result/Result";
 import {moviesDataList}  from "./Movies";
-require('dotenv').config();
 
 const App = () => {
   const [movies, setMovies] = useState();
@@ -53,7 +53,7 @@ const App = () => {
 
   const findMovies = (data) => {
     const q = getQueryString(data);
-    const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=1`;
+    const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=1`;
     getMovies(BASE_URL + q);
   }
 
@@ -79,13 +79,13 @@ const App = () => {
   }
 
   const getRunTime = async (movieId) => {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&language=en-US`);
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
     const data = await response.json();
     setRunTime(data.runtime);
   }
 
   const getTrailer = async (movieId) => {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${process.env.TMDB_API_KEY}&language=en-US`);
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
     const data = await response.json();
     setTrailer(data.results[0].key);
   }
@@ -106,7 +106,7 @@ const App = () => {
   }
 
   // const getPopular = async () => {
-  //   const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&language=en-US`);
+  //   const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
   //   const data = await response.json();
   //   const transformedMovies = data.results.map((movie) => {
   //     return {
@@ -132,7 +132,7 @@ const App = () => {
     <div className="app">
       <h1>WHAT MOVIE?</h1>
       {showFilter && <Form onSubmit={newFilterDataHandler} filterData={filterData} onClose={onCloseHandler} />}
-      <div className="movie-controls d-flex flex-column">
+      <div className="movie-controls">
         <button onClick={findMovies.bind(this, filterData)} className="btn btn-primary mt-3">GENERATE</button>
         <button onClick={showFilterHandler} className="btn btn-outline-primary mt-3"><span>FILTER</span></button>
       </div>
