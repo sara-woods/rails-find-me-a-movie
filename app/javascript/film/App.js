@@ -15,8 +15,8 @@ const App = () => {
   const [filterData, setFilterData] = useState({});
   // const [popular, setPopular] = useState({});
   const [movieIndex, setMovieIndex] = useState(0);
-  const [findMoviesUrl, setFindMoviesUrl] = useState("https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=1");
-
+  const [moviePageIndex, setMoviePageIndex] = useState(1);
+  // const [findMoviesUrl, setFindMoviesUrl] = useState("https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=1");
 
   const getQueryString = (filterHash) => {
     let url = "";
@@ -47,26 +47,44 @@ const App = () => {
   }
 
   const newFilterDataHandler = (yearFrom, yearTo, genres, rating) => {
-    setFilterData({yearFrom, yearTo, genres, rating});
-    findMovies({yearFrom, yearTo, genres, rating});
+    const newFilterInput = {yearFrom, yearTo, genres, rating};
+
     setShowFilter(false);
+
+    for (const [key, value] of Object.entries(newFilterInput)) {
+      if (filterData[key] !== value) {
+        setFilterData(newFilterInput);
+        setMovieIndex(0);
+        findMovies(newFilterInput);
+        
+        return;
+      }
+    }
+    chooseMovie(movies);
   }
 
-  const findMovies = (data) => {
-    const q = getQueryString(data);
-    const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=1`;
-    // if url has changed, got to get movies, else go to choosemovie
-    // can only be done 2nd time generating, or fetch movies before app has rendered
-    // if (findMoviesUrl === BASE_URL + q) {
-    //   chooseMovie()
-    // } else {
-    //   getMovies(BASE_URL + q);
-    // }
+  const generateButtonHandler = () => {
+    // app has just initialised
+    if (!movies) {
+      // setMoviePageIndex(prevState => prevState += 1); 
+      findMovies(filterData);
+    } else {
+      chooseMovie(movies);
+    }
+  }
+
+  const findMovies = (filterInput) => {
+    console.log(movies)
+    const q = getQueryString(filterInput);
+    const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=${moviePageIndex}`;
+
     getMovies(BASE_URL + q);
   }
 
   const getMovies = async (url) => {
     setError(null);
+    console.log("request starts");
+    console.log(url);
     try {
       const response = await fetch(url);
 
@@ -76,6 +94,7 @@ const App = () => {
 
       const data = await response.json();
       console.log(data)
+      
       const transformedMovies = data.results.map((movie) => {
         return {
           id: movie.id,
@@ -89,6 +108,7 @@ const App = () => {
         }
       })
       setMovies(transformedMovies);
+      // setMoviePageIndex(prevState => prevState += 1);
       chooseMovie(transformedMovies);
     } catch (errorThrown) {
       setError(errorThrown.message);
@@ -101,6 +121,7 @@ const App = () => {
       const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
       const data = await response.json();
       setRunTime(data.runtime);
+      console.log(data.runtime);
     } catch {
       setRunTime(null);
     }
@@ -125,7 +146,9 @@ const App = () => {
     getRunTime(moviesData[movieIndex].id);
     getTrailer(moviesData[movieIndex].id);
     setSelectedMovie(moviesData[movieIndex]);
-    console.log(moviesData[movieIndex])
+    console.log(moviesData[movieIndex]);
+
+
     if (movieIndex < moviesData.length - 1) {
       setMovieIndex(prevState => prevState += 1);
     } else {
@@ -169,7 +192,7 @@ const App = () => {
       <h1>WHAT MOVIE?</h1>
       {showFilter && <Form onSubmit={newFilterDataHandler} filterData={filterData} onClose={onCloseHandler} />}
       <div className="movie-controls">
-        <button onClick={findMovies.bind(this, filterData)} className="btn btn-primary mt-3">GENERATE</button>
+        <button onClick={generateButtonHandler} className="btn btn-primary mt-3">GENERATE</button>
         <button onClick={showFilterHandler} className="btn btn-outline-primary mt-3"><span>FILTER</span></button>
       </div>
       {selectedMovie && <Result movie={selectedMovie} runtime={runTime} trailer={trailer}/>}
