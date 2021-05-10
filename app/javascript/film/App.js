@@ -66,7 +66,7 @@ const App = () => {
   const generateButtonHandler = () => {
     // app has just initialised
     if (!movies) {
-      // setMoviePageIndex(prevState => prevState += 1); 
+      
       findMovies(filterData);
     } else {
       chooseMovie(movies);
@@ -77,7 +77,7 @@ const App = () => {
     console.log(movies)
     const q = getQueryString(filterInput);
     const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=${moviePageIndex}`;
-
+    console.log(BASE_URL)
     getMovies(BASE_URL + q);
   }
 
@@ -146,13 +146,15 @@ const App = () => {
     getRunTime(moviesData[movieIndex].id);
     getTrailer(moviesData[movieIndex].id);
     setSelectedMovie(moviesData[movieIndex]);
-    console.log(moviesData[movieIndex]);
-
+    console.log(movieIndex);
+    console.log(moviePageIndex);
 
     if (movieIndex < moviesData.length - 1) {
       setMovieIndex(prevState => prevState += 1);
     } else {
       setMovieIndex(0);
+      setMoviePageIndex(prevState => prevState += 1);
+      // findMovies(filterData);
     }
   }
 
