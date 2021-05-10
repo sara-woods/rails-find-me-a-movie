@@ -10,10 +10,12 @@ const App = () => {
   const [runTime, setRunTime] = useState();
   const [trailer, setTrailer] = useState();
   const [error, setError] = useState(null);
-  const [src, setSrc] = useState(null);
+  
   const [showFilter, setShowFilter] = useState(false);
   const [filterData, setFilterData] = useState({});
-  const [popular, setPopular] = useState({});
+  // const [popular, setPopular] = useState({});
+  const [movieIndex, setMovieIndex] = useState(0);
+  const [findMoviesUrl, setFindMoviesUrl] = useState("https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=1");
 
 
   const getQueryString = (filterHash) => {
@@ -53,47 +55,82 @@ const App = () => {
   const findMovies = (data) => {
     const q = getQueryString(data);
     const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=1`;
+    // if url has changed, got to get movies, else go to choosemovie
+    // can only be done 2nd time generating, or fetch movies before app has rendered
+    // if (findMoviesUrl === BASE_URL + q) {
+    //   chooseMovie()
+    // } else {
+    //   getMovies(BASE_URL + q);
+    // }
     getMovies(BASE_URL + q);
   }
 
   const getMovies = async (url) => {
-    const response = await fetch(url);
-    const data = await response.json();
-    // console.log(data)
-    const transformedMovies = data.results.map((movie) => {
-      return {
-        id: movie.id,
-        title: movie.title,
-        description: movie.overview,
-        rating: movie.vote_average,
-        genres: movie.genre_ids,
-        length: null,
-        poster_path: movie.poster_path,
-        backdrop_path: movie.backdrop_path,
-        year: movie.release_date
+    setError(null);
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
       }
-    })
-    setMovies(transformedMovies);
-    chooseMovie(transformedMovies);
+
+      const data = await response.json();
+      console.log(data)
+      const transformedMovies = data.results.map((movie) => {
+        return {
+          id: movie.id,
+          title: movie.title,
+          description: movie.overview,
+          rating: movie.vote_average,
+          genres: movie.genre_ids,
+          poster_path: movie.poster_path,
+          backdrop_path: movie.backdrop_path,
+          year: movie.release_date
+        }
+      })
+      setMovies(transformedMovies);
+      chooseMovie(transformedMovies);
+    } catch (errorThrown) {
+      setError(errorThrown.message);
+    }
   }
 
   const getRunTime = async (movieId) => {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
-    const data = await response.json();
-    setRunTime(data.runtime);
+    setError(null);
+    try {
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
+      const data = await response.json();
+      setRunTime(data.runtime);
+    } catch {
+      setRunTime(null);
+    }
   }
 
   const getTrailer = async (movieId) => {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
-    const data = await response.json();
-    setTrailer(data.results[0].key);
+    setError(null);
+    try {
+      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
+      const data = await response.json();
+      setTrailer(data.results[0].key);
+    } catch {
+      setTrailer(null);
+    }
   }
 
   const chooseMovie = (moviesData) => {
-    const rand = Math.floor(Math.random() * moviesData.length);
-    getRunTime(moviesData[rand].id);
-    getTrailer(moviesData[rand].id);
-    setSelectedMovie(moviesData[rand]);
+    // const rand = Math.floor(Math.random() * moviesData.length);
+    // getRunTime(moviesData[rand].id);
+    // getTrailer(moviesData[rand].id);
+    // setSelectedMovie(moviesData[rand]);
+    getRunTime(moviesData[movieIndex].id);
+    getTrailer(moviesData[movieIndex].id);
+    setSelectedMovie(moviesData[movieIndex]);
+    console.log(moviesData[movieIndex])
+    if (movieIndex < moviesData.length - 1) {
+      setMovieIndex(prevState => prevState += 1);
+    } else {
+      setMovieIndex(0);
+    }
   }
 
   const showFilterHandler = () => {
@@ -136,7 +173,7 @@ const App = () => {
         <button onClick={showFilterHandler} className="btn btn-outline-primary mt-3"><span>FILTER</span></button>
       </div>
       {selectedMovie && <Result movie={selectedMovie} runtime={runTime} trailer={trailer}/>}
-      {error && <p>{error}</p>}
+      {error && <p className="mt-5">{error}</p>}
     </div>
   );
 }
