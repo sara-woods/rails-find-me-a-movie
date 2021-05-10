@@ -198,7 +198,7 @@ const App = () => {
         <button onClick={generateButtonHandler} className="btn btn-primary mt-3">GENERATE</button>
         <button onClick={showFilterHandler} className="btn btn-outline-primary mt-3"><span>FILTER</span></button>
       </div>
-      {selectedMovie && <Result movie={selectedMovie} runtime={runTime} trailer={trailer}/>}
+      {selectedMovie && !error && <Result movie={selectedMovie} runtime={runTime} trailer={trailer}/>}
       {error && <p className="mt-5">{error}</p>}
     </div>
   );
