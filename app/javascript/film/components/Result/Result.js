@@ -7,13 +7,17 @@ const Result = (props) => {
     const hours = Math.floor(props.runtime / 60);
     const minutes = props.runtime % 60;
 
-    let styles = {
+    let posterStyle = {
       backgroundImage: `url(https://image.tmdb.org/t/p/w500/${poster_path})`
+    }
+
+    let noPosterStyle = {
+      backgroundColor: "#2F2F3B"
     }
 
   return (
     <div className="result-container mt-4 mb-5">
-      <div className="movie-poster-container" style={styles}>
+      <div className="movie-poster-container" style={poster_path ? posterStyle : noPosterStyle}>
       </div>
       <div className="movie-info d-flex flex-column">
         <a href={movie_url} target="_blank" rel="noreferrer noopener">

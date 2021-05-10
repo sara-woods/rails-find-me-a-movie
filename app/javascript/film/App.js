@@ -17,6 +17,7 @@ const App = () => {
   const [moviePageIndex, setMoviePageIndex] = useState(1);
   // const [findMoviesUrl, setFindMoviesUrl] = useState("https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=1");
 
+
   const getQueryString = (filterHash) => {
     let url = "";
 
@@ -110,7 +111,6 @@ const App = () => {
         }
       })
       setMovies(transformedMovies);
-      // setMoviePageIndex(prevState => prevState += 1);
       chooseMovie(transformedMovies);
     } catch (errorThrown) {
       setError(errorThrown.message);
@@ -156,7 +156,6 @@ const App = () => {
     } else {
       setMovieIndex(0);
       setMoviePageIndex(prevState => prevState += 1);
-      // findMovies(filterData);
     }
   }
 

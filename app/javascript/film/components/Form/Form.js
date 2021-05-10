@@ -101,16 +101,12 @@ const Form = (props) => {
             </select>
           </div>
 
-         
             <button className="btn btn-primary btn-block" type="submit">GENERATE</button>
             <button className="btn btn-outline-primary btn-block" onClick={props.onClose}>CANCEL</button>
         
         </form>
       </div>
     </React.Fragment>
-
-      
-
   );
 }
 
