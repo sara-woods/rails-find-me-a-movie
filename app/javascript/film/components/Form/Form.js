@@ -9,7 +9,12 @@ const Form = (props) => {
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
-    props.onSubmit(yearFrom, yearTo, genres, rating);
+    
+    if (yearFrom > yearTo) {
+      props.onSubmit(yearTo, yearFrom, genres, rating);
+    } else {
+      props.onSubmit(yearFrom, yearTo, genres, rating);
+    }
   }
 
   const yearFromChangedHandler = (event) => {
@@ -47,7 +52,7 @@ const Form = (props) => {
 
   return (
     <React.Fragment>
-      <div className="form-underlay">
+      <div className="form-underlay" onClick={props.onClose}>
       </div>
       <div className="form-container">
         <form onSubmit={formSubmitHandler}>

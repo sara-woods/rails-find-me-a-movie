@@ -92,7 +92,10 @@ const App = () => {
       }
 
       const data = await response.json();
-      console.log(data)
+      
+      if (data.results.length === 0) {
+        throw new Error("Sorry, no movies were found.");
+      }
       
       const transformedMovies = data.results.map((movie) => {
         return {
