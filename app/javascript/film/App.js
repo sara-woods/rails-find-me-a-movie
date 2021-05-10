@@ -2,7 +2,6 @@
 import React, {useState} from "react";
 import Form from "./components/Form/Form";
 import Result from "./components/Result/Result";
-import {moviesDataList}  from "./Movies";
 
 const App = () => {
   const [movies, setMovies] = useState();

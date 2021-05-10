@@ -46,7 +46,7 @@ const Form = (props) => {
   }
 
   return (
-    <div>
+    <React.Fragment>
       <div className="form-underlay">
       </div>
       <div className="form-container">
@@ -102,7 +102,7 @@ const Form = (props) => {
         
         </form>
       </div>
-    </div>
+    </React.Fragment>
 
       
 
