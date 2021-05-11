@@ -1,5 +1,5 @@
 // import { data } from "jquery";
-import React, {useState} from "react";
+import React, { useState, useEffect} from "react";
 import Form from "./components/Form/Form";
 import Result from "./components/Result/Result";
 
@@ -8,14 +8,61 @@ const App = () => {
   const [selectedMovie, setSelectedMovie] = useState();
   const [runTime, setRunTime] = useState();
   const [trailer, setTrailer] = useState();
+
+  const [movieIndex, setMovieIndex] = useState(0);
+  const [moviePageIndex, setMoviePageIndex] = useState(1);
+  const [totalPages, setTotalPages] = useState();
+
   const [error, setError] = useState(null);
   
   const [showFilter, setShowFilter] = useState(false);
   const [filterData, setFilterData] = useState({});
-  // const [popular, setPopular] = useState({});
-  const [movieIndex, setMovieIndex] = useState(0);
-  const [moviePageIndex, setMoviePageIndex] = useState(1);
-  // const [findMoviesUrl, setFindMoviesUrl] = useState("https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=1");
+  
+  
+  useEffect(() => {
+    if (!movies) {
+      return;
+    }
+    if (movieIndex < movies.length - 1) {
+      setMovieIndex(prevState => prevState += 1);
+    } else {
+      setMovieIndex(0);
+      setMovies(null);
+      if (moviePageIndex < totalPages) {
+        setMoviePageIndex(prevState => prevState += 1);
+      } else {
+        setMoviePageIndex(1);
+      }
+    }
+  }, [selectedMovie])
+
+
+  // useEffect(() => {
+  //   const getPopular = async () => {
+  //     const response = await fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_TMDB_API_KEY}`);
+  //     const data = await response.json();
+  //     const transformedMovies = data.results.map((movie) => {
+  //       return {
+  //         id: movie.id,
+  //         title: movie.title,
+  //         description: movie.overview,
+  //         rating: movie.vote_average,
+  //         genres: movie.genre_ids,
+  //         length: null,
+  //         poster_path: movie.poster_path,
+  //         backdrop_path: movie.backdrop_path,
+  //         year: movie.release_date
+  //       }
+  //     })
+      
+      
+  //     console.log("useeffect")
+  //     getPopular();
+  //     getRunTime(transformedMovies[0].id);
+  //     getTrailer(transformedMovies[0].id);
+  //     setSelectedMovie(transformedMovies[0]);
+  //   }
+  // }, [])
 
 
   const getQueryString = (filterHash) => {
@@ -66,7 +113,6 @@ const App = () => {
   const generateButtonHandler = () => {
     // app has just initialised
     if (!movies) {
-      
       findMovies(filterData);
     } else {
       chooseMovie(movies);
@@ -74,10 +120,8 @@ const App = () => {
   }
 
   const findMovies = (filterInput) => {
-    console.log(movies)
     const q = getQueryString(filterInput);
     const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=${moviePageIndex}`;
-    console.log(BASE_URL)
     getMovies(BASE_URL + q);
   }
 
@@ -97,6 +141,7 @@ const App = () => {
       if (data.results.length === 0) {
         throw new Error("Sorry, no movies were found.");
       }
+      console.log(data);
       
       const transformedMovies = data.results.map((movie) => {
         return {
@@ -110,6 +155,7 @@ const App = () => {
           year: movie.release_date
         }
       })
+      setTotalPages(data.total_pages);
       setMovies(transformedMovies);
       chooseMovie(transformedMovies);
     } catch (errorThrown) {
@@ -151,12 +197,12 @@ const App = () => {
     console.log(movieIndex);
     console.log(moviePageIndex);
 
-    if (movieIndex < moviesData.length - 1) {
-      setMovieIndex(prevState => prevState += 1);
-    } else {
-      setMovieIndex(0);
-      setMoviePageIndex(prevState => prevState += 1);
-    }
+    // if (movieIndex < moviesData.length - 1) {
+    //   setMovieIndex(prevState => prevState += 1);
+    // } else {
+    //   setMovieIndex(0);
+    //   setMoviePageIndex(prevState => prevState += 1);
+    // }
   }
 
   const showFilterHandler = () => {
@@ -167,28 +213,7 @@ const App = () => {
     setShowFilter(false);
   }
 
-  // const getPopular = async () => {
-  //   const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
-  //   const data = await response.json();
-  //   const transformedMovies = data.results.map((movie) => {
-  //     return {
-  //       id: movie.id,
-  //       title: movie.title,
-  //       description: movie.overview,
-  //       rating: movie.vote_average,
-  //       genres: movie.genre_ids,
-  //       length: null,
-  //       poster_path: movie.poster_path,
-  //       backdrop_path: movie.backdrop_path,
-  //       year: movie.release_date
-  //     }
-  //   })
-    
-  //   setPopular(transformedMovies[0]);
-  //   getRunTime(transformedMovies[0].id);
-  //   getTrailer(transformedMovies[0].id);
-  //   setSelectedMovie(transformedMovies[0]);
-  // }
+
 
   return (
     <div className="app">
