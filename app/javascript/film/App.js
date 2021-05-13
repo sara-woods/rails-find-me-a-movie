@@ -1,13 +1,25 @@
 // import { data } from "jquery";
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Form from "./components/Form/Form";
 import Result from "./components/Result/Result";
 
+const selectedMovieReducer = (state, action) => {
+  switch (action.type) {
+    case "NEW_MOVIE":
+      return { movie: action.val, runtime: state.runtime, trailer: state.trailer };
+    case "NEW_RUNTIME":
+      return { movie: state.movie, runtime: action.val, trailer: state.trailer };
+    case "NEW_TRAILER":
+      return { movie: state.movie, runtime: state.runtime, trailer: action.val };
+    default:
+      return { movie: null, runtime: null, trailer: null };
+  }
+}
+
 const App = () => {
   const [movies, setMovies] = useState();
-  const [selectedMovie, setSelectedMovie] = useState();
-  const [runTime, setRunTime] = useState();
-  const [trailer, setTrailer] = useState();
+
+  const [selectedMovieState, dispatchSelectedMovie] = useReducer(selectedMovieReducer, {movie: null, runtime: null, trailer: null });
 
   const [movieIndex, setMovieIndex] = useState(0);
   const [moviePageIndex, setMoviePageIndex] = useState(1);
@@ -34,7 +46,7 @@ const App = () => {
         setMoviePageIndex(1);
       }
     }
-  }, [selectedMovie])
+  }, [selectedMovieState.movie])
 
 
   // useEffect(() => {
@@ -168,10 +180,10 @@ const App = () => {
     try {
       const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
       const data = await response.json();
-      setRunTime(data.runtime);
-      console.log(data.runtime);
+
+      dispatchSelectedMovie({type: "NEW_RUNTIME", val: data.runtime})
     } catch {
-      setRunTime(null);
+      dispatchSelectedMovie({type: "NEW_RUNTIME", val: null})
     }
   }
 
@@ -180,29 +192,16 @@ const App = () => {
     try {
       const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
       const data = await response.json();
-      setTrailer(data.results[0].key);
+      dispatchSelectedMovie({type: "NEW_TRAILER", val: data.results[0].key});
     } catch {
-      setTrailer(null);
+      dispatchSelectedMovie({type: "NEW_TRAILER", val: null});
     }
   }
 
   const chooseMovie = (moviesData) => {
-    // const rand = Math.floor(Math.random() * moviesData.length);
-    // getRunTime(moviesData[rand].id);
-    // getTrailer(moviesData[rand].id);
-    // setSelectedMovie(moviesData[rand]);
     getRunTime(moviesData[movieIndex].id);
     getTrailer(moviesData[movieIndex].id);
-    setSelectedMovie(moviesData[movieIndex]);
-    console.log(movieIndex);
-    console.log(moviePageIndex);
-
-    // if (movieIndex < moviesData.length - 1) {
-    //   setMovieIndex(prevState => prevState += 1);
-    // } else {
-    //   setMovieIndex(0);
-    //   setMoviePageIndex(prevState => prevState += 1);
-    // }
+    dispatchSelectedMovie({type: "NEW_MOVIE", val: moviesData[movieIndex]});
   }
 
   const showFilterHandler = () => {
@@ -213,8 +212,6 @@ const App = () => {
     setShowFilter(false);
   }
 
-
-
   return (
     <div className="app">
       <h1>WHAT MOVIE?</h1>
@@ -223,7 +220,7 @@ const App = () => {
         <button onClick={generateButtonHandler} className="btn btn-primary mt-3">GENERATE</button>
         <button onClick={showFilterHandler} className="btn btn-outline-primary mt-3"><span>FILTER</span></button>
       </div>
-      {selectedMovie && !error && <Result movie={selectedMovie} runtime={runTime} trailer={trailer}/>}
+      {selectedMovieState.movie && !error && <Result movie={selectedMovieState.movie} runtime={selectedMovieState.runtime} trailer={selectedMovieState.trailer}/>}
       {error && <p className="mt-5">{error}</p>}
     </div>
   );
