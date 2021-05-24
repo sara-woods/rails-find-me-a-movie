@@ -16,16 +16,16 @@ const Result = (props) => {
     }
 
   return (
-    <div className="result-container mt-4 mb-5">
+    <div className="result-container mt-5 mb-5">
       <div className="movie-poster-container" style={poster_path ? posterStyle : noPosterStyle}>
       </div>
       <div className="movie-info d-flex flex-column">
         <a href={movie_url} target="_blank" rel="noreferrer noopener">
           <h2>{title.toUpperCase()}</h2>
         </a>
-        <div className="d-flex">
+        <div className="d-flex year-runtime">
           <p className="mr-2">({year.substr(0,4)})</p>
-          {props.runtime && <p>{hours}h {minutes}min</p>}
+          {props.runtime && <p>{hours !== 0 && `${hours}h`} {minutes !== 0 && `${minutes}min`}</p>}
         </div>
 
         <div className="d-flex flex-wrap">
@@ -35,7 +35,7 @@ const Result = (props) => {
         <p className="flex-grow-1">{description}</p>
         <div className="movie-info-bottom">
           {rating && <p><span className="rating">{rating}</span>/10</p>}
-          {props.trailer && <a href={`https://www.youtube.com/watch?v=${props.trailer}`} target="_blank" rel="noreferrer noopener"><button className="btn btn-primary mt-3 btn-read-more">View trailer</button></a>}
+          {props.trailer && <a href={`https://www.youtube.com/watch?v=${props.trailer}`} target="_blank" rel="noreferrer noopener"><button className="btn btn-primary btn-read-more">View trailer</button></a>}
         </div>
       </div>
     </div>

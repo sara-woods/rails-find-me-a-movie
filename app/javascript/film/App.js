@@ -31,6 +31,42 @@ const App = () => {
   const [filterData, setFilterData] = useState({});
   
   
+  const getPopular = async () => {
+    setError(null);
+    try {
+      const response = await fetch("/api/v1/popular")
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const data = await response.json();
+
+      const transformedMovies = data.results.map((movie) => {
+        return {
+          id: movie.id,
+          title: movie.title,
+          description: movie.overview,
+          rating: movie.vote_average,
+          genres: movie.genre_ids,
+          length: null,
+          poster_path: movie.poster_path,
+          backdrop_path: movie.backdrop_path,
+          year: movie.release_date
+        }
+      })
+      
+      chooseMovie(transformedMovies);
+    } catch (errorThrown) {
+      setError(errorThrown.message);
+    }
+  }
+
+  useEffect(() => {
+    console.log("useeffect")
+    getPopular();
+  }, [])
+
   useEffect(() => {
     if (!movies) {
       return;
@@ -47,35 +83,6 @@ const App = () => {
       }
     }
   }, [selectedMovieState.movie])
-
-
-  // useEffect(() => {
-  //   const getPopular = async () => {
-  //     const response = await fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.REACT_APP_TMDB_API_KEY}`);
-  //     const data = await response.json();
-  //     const transformedMovies = data.results.map((movie) => {
-  //       return {
-  //         id: movie.id,
-  //         title: movie.title,
-  //         description: movie.overview,
-  //         rating: movie.vote_average,
-  //         genres: movie.genre_ids,
-  //         length: null,
-  //         poster_path: movie.poster_path,
-  //         backdrop_path: movie.backdrop_path,
-  //         year: movie.release_date
-  //       }
-  //     })
-      
-      
-  //     console.log("useeffect")
-  //     getPopular();
-  //     getRunTime(transformedMovies[0].id);
-  //     getTrailer(transformedMovies[0].id);
-  //     setSelectedMovie(transformedMovies[0]);
-  //   }
-  // }, [])
-
 
   const getQueryString = (filterHash) => {
     let url = "";
@@ -132,15 +139,20 @@ const App = () => {
   }
 
   const findMovies = (filterInput) => {
-    const q = getQueryString(filterInput);
-    const BASE_URL = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=${moviePageIndex}`;
-    getMovies(BASE_URL + q);
+    const urlAddon = getQueryString(filterInput);
+    getMoviesRails(urlAddon)
   }
 
-  const getMovies = async (url) => {
+  const getMoviesRails = async (urlAddon) => {
     setError(null);
     try {
-      const response = await fetch(url);
+      const response = await fetch("/api/v1/search", {
+        method: "POST",
+        body: JSON.stringify({urlAddon}),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
 
       if (!response.ok) {
         throw new Error("Something went wrong!");
@@ -151,7 +163,7 @@ const App = () => {
       if (data.results.length === 0) {
         throw new Error("Sorry, no movies were found.");
       }
-      
+  
       const transformedMovies = data.results.map((movie) => {
         return {
           id: movie.id,
@@ -172,10 +184,16 @@ const App = () => {
     }
   }
 
-  const getRunTime = async (movieId) => {
+  const getRunTimeRails = async (movieId) => {
     setError(null);
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
+      const response = await fetch("/api/v1/runtime", {
+        method: "POST",
+        body: JSON.stringify({movieId}),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
       const data = await response.json();
 
       dispatchSelectedMovie({type: "NEW_RUNTIME", val: data.runtime})
@@ -184,10 +202,17 @@ const App = () => {
     }
   }
 
-  const getTrailer = async (movieId) => {
+  const getTrailerRails = async (movieId) => {
     setError(null);
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`);
+      const response = await fetch("/api/v1/trailer", {
+        method: "POST",
+        body: JSON.stringify({movieId}),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+
       const data = await response.json();
       dispatchSelectedMovie({type: "NEW_TRAILER", val: data.results[0].key});
     } catch {
@@ -196,8 +221,8 @@ const App = () => {
   }
 
   const chooseMovie = (moviesData) => {
-    getRunTime(moviesData[movieIndex].id);
-    getTrailer(moviesData[movieIndex].id);
+    getRunTimeRails(moviesData[movieIndex].id);
+    getTrailerRails(moviesData[movieIndex].id);
     dispatchSelectedMovie({type: "NEW_MOVIE", val: moviesData[movieIndex]});
   }
 

@@ -23,6 +23,10 @@
   width: 60%;
 }
 
+.year-runtime {
+  font-weight: 200;
+}
+
 .genre {
   width: fit-content;
   border-radius: 9999px;
@@ -35,14 +39,15 @@
 .movie-info-bottom {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
 
   p {
     margin: 0;
+    line-height: 1;
   }
 
   .rating {
-    font-size: 28px;
+    font-size: 36px;
+    margin-right: 5px;
   }
 }
 
