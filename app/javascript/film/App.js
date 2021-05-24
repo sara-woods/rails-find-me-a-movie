@@ -63,7 +63,6 @@ const App = () => {
   }
 
   useEffect(() => {
-    console.log("useeffect")
     getPopular();
   }, [])
 
