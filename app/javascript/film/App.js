@@ -139,8 +139,6 @@ const App = () => {
 
   const getMovies = async (url) => {
     setError(null);
-    console.log("request starts");
-    console.log(url);
     try {
       const response = await fetch(url);
 
@@ -153,7 +151,6 @@ const App = () => {
       if (data.results.length === 0) {
         throw new Error("Sorry, no movies were found.");
       }
-      console.log(data);
       
       const transformedMovies = data.results.map((movie) => {
         return {
