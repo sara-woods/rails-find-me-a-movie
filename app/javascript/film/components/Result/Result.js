@@ -24,17 +24,17 @@ const Result = (props) => {
           <h2>{title.toUpperCase()}</h2>
         </a>
         <div className="d-flex year-runtime">
-          <p className="mr-2">({year.substr(0,4)})</p>
-          {props.runtime && <p>{hours !== 0 && `${hours}h`} {minutes !== 0 && `${minutes}min`}</p>}
+          <p className="mr-2">{year && `(${year.substr(0,4)})`}</p>
+          {!!props.runtime && <p>{hours !== 0 && `${hours}h`} {minutes !== 0 && `${minutes}min`}</p>}
         </div>
 
         <div className="d-flex flex-wrap">
-          {genres.map((genre) => <p key={genre} className="genre">{genresIds[genre]}</p>)}
+          {genres.map((genre) => <p key={genre} className="genre">{genresIds[genre].toUpperCase()}</p>)}
         </div>
         
         <p className="flex-grow-1">{description}</p>
         <div className="movie-info-bottom">
-          {rating && <p><span className="rating">{rating}</span>/10</p>}
+          {rating !== 0 && <p><span className="rating">{rating}</span>/10</p>}
           {props.trailer && <a href={`https://www.youtube.com/watch?v=${props.trailer}`} target="_blank" rel="noreferrer noopener"><button className="btn btn-primary btn-read-more">View trailer</button></a>}
         </div>
       </div>

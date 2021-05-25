@@ -15,6 +15,17 @@ h1 {
   font-size: 76px;
 }
 
+.subheader {
+  width: 450px;
+  margin: 0 auto;
+  p {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 100;
+    text-align: center;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .app {
     width: 90%;
@@ -29,6 +40,10 @@ h1 {
     button {
       margin: 0 8px;
     }
+  }
+
+  .subheader {
+    width: 100%;
   }
 }
 

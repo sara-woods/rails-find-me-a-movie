@@ -4,6 +4,7 @@ import Form from "./components/Form/Form";
 import Result from "./components/Result/Result";
 
 const selectedMovieReducer = (state, action) => {
+  
   switch (action.type) {
     case "NEW_MOVIE":
       return { movie: action.val, runtime: state.runtime, trailer: state.trailer };
@@ -147,7 +148,7 @@ const App = () => {
     try {
       const response = await fetch("/api/v1/search", {
         method: "POST",
-        body: JSON.stringify({urlAddon}),
+        body: JSON.stringify({urlAddon: urlAddon, moviePageIndex: moviePageIndex}),
         headers: {
           "Content-Type": "application/json"
         }
@@ -162,7 +163,7 @@ const App = () => {
       if (data.results.length === 0) {
         throw new Error("Sorry, no movies were found.");
       }
-  
+
       const transformedMovies = data.results.map((movie) => {
         return {
           id: movie.id,
@@ -175,6 +176,7 @@ const App = () => {
           year: movie.release_date
         }
       })
+
       setTotalPages(data.total_pages);
       setMovies(transformedMovies);
       chooseMovie(transformedMovies);
@@ -213,6 +215,7 @@ const App = () => {
       })
 
       const data = await response.json();
+
       dispatchSelectedMovie({type: "NEW_TRAILER", val: data.results[0].key});
     } catch {
       dispatchSelectedMovie({type: "NEW_TRAILER", val: null});
@@ -222,6 +225,7 @@ const App = () => {
   const chooseMovie = (moviesData) => {
     getRunTimeRails(moviesData[movieIndex].id);
     getTrailerRails(moviesData[movieIndex].id);
+
     dispatchSelectedMovie({type: "NEW_MOVIE", val: moviesData[movieIndex]});
   }
 
@@ -236,6 +240,9 @@ const App = () => {
   return (
     <div className="app">
       <h1>WHAT MOVIE?</h1>
+      <div className="subheader">
+        <p>Don’t know what to watch? Generate a random movie!</p>
+      </div>
       {showFilter && <Form onSubmit={newFilterDataHandler} filterData={filterData} onClose={onCloseHandler} />}
       <div className="movie-controls">
         <button onClick={generateButtonHandler} className="btn btn-primary mt-3">GENERATE</button>

@@ -1,9 +1,10 @@
 class Api::V1::FilmsController < Api::V1::BaseController
   def search
-    baseurl = "https://api.themoviedb.org/3/discover/movie?api_key=#{ENV['REACT_APP_TMDB_API_KEY']}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=${moviePageIndex}";
     urladdon = params[:urlAddon]
+    moviepageindex = params[:moviePageIndex]
+    url = "https://api.themoviedb.org/3/discover/movie?api_key=#{ENV['REACT_APP_TMDB_API_KEY']}&language=en-US&sort_by=popularity.desc&with_watch_monetization_types=flatrate&include_adult=false&include_video=false&page=#{moviepageindex}#{urladdon}";
 
-    uri = URI("#{baseurl}#{urladdon}")
+    uri = URI(url)
     res = Net::HTTP.get_response(uri)
 
     if res.is_a?(Net::HTTPSuccess)
