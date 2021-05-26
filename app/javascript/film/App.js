@@ -71,6 +71,7 @@ const App = () => {
     if (!movies) {
       return;
     }
+
     if (movieIndex < movies.length - 1) {
       setMovieIndex(prevState => prevState += 1);
     } else {
@@ -119,36 +120,32 @@ const App = () => {
 
     for (const [key, value] of Object.entries(newFilterInput)) {
       if (filterData[key] !== value) {
-        setFilterData(newFilterInput);
         setMovieIndex(0);
-        findMovies(newFilterInput);
-        
+        setMoviePageIndex(1);
+        setFilterData(newFilterInput);
+        getMoviesRails(newFilterInput, 1);
         return;
       }
     }
-    chooseMovie(movies);
+    generateButtonHandler();
   }
 
   const generateButtonHandler = () => {
-    // app has just initialised
     if (!movies) {
-      findMovies(filterData);
+      getMoviesRails(filterData);
     } else {
       chooseMovie(movies);
     }
   }
 
-  const findMovies = (filterInput) => {
+  const getMoviesRails = async (filterInput, pageIndex = moviePageIndex) => {
     const urlAddon = getQueryString(filterInput);
-    getMoviesRails(urlAddon)
-  }
 
-  const getMoviesRails = async (urlAddon) => {
     setError(null);
     try {
       const response = await fetch("/api/v1/search", {
         method: "POST",
-        body: JSON.stringify({urlAddon: urlAddon, moviePageIndex: moviePageIndex}),
+        body: JSON.stringify({urlAddon: urlAddon, moviePageIndex: pageIndex}),
         headers: {
           "Content-Type": "application/json"
         }
@@ -159,7 +156,7 @@ const App = () => {
       }
 
       const data = await response.json();
-      
+
       if (data.results.length === 0) {
         throw new Error("Sorry, no movies were found.");
       }
@@ -179,8 +176,12 @@ const App = () => {
 
       setTotalPages(data.total_pages);
       setMovies(transformedMovies);
-      chooseMovie(transformedMovies);
+      chooseMovie(transformedMovies, 0);
     } catch (errorThrown) {
+      setMovies(null);
+      dispatchSelectedMovie({type: "NEW_MOVIE", val: null});
+      dispatchSelectedMovie({type: "NEW_RUNTIME", val: null});
+      dispatchSelectedMovie({type: "NEW_TRAILER", val: null});
       setError(errorThrown.message);
     }
   }
@@ -222,11 +223,10 @@ const App = () => {
     }
   }
 
-  const chooseMovie = (moviesData) => {
-    getRunTimeRails(moviesData[movieIndex].id);
-    getTrailerRails(moviesData[movieIndex].id);
-
-    dispatchSelectedMovie({type: "NEW_MOVIE", val: moviesData[movieIndex]});
+  const chooseMovie = (moviesData, index = movieIndex) => {
+    getRunTimeRails(moviesData[index].id);
+    getTrailerRails(moviesData[index].id);
+    dispatchSelectedMovie({type: "NEW_MOVIE", val: moviesData[index]});
   }
 
   const showFilterHandler = () => {
@@ -241,7 +241,7 @@ const App = () => {
     <div className="app">
       <h1>WHAT MOVIE?</h1>
       <div className="subheader">
-        <p>Don’t know what to watch? Generate a random movie!</p>
+        <p>Don’t know what to watch? Get a movie suggested!</p>
       </div>
       {showFilter && <Form onSubmit={newFilterDataHandler} filterData={filterData} onClose={onCloseHandler} />}
       <div className="movie-controls">
