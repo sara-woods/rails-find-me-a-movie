@@ -1,17 +1,21 @@
 .footer-logo {
-  width: 160px;
+  width: 140px;
   padding-bottom: 24px;
 }
 
 footer {
   font-weight: 100;
   padding: 0 16px;
+  font-size: 14px;
+  background-color: $medium-gray;
 }
 
 .icons {
-  
+  p {
+    margin: 0;
+  }
   a {
-    font-size: 50px;
+    font-size: 44px;
     color: #575763;
   }
   a:hover {
