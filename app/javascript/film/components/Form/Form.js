@@ -93,10 +93,9 @@ const Form = (props) => {
               <option value="10402">Musical</option>
               <option value="9648">Mystery</option>
               <option value="10749">Romance</option>
-              <option value="878-fi">Sci-Fi</option>
-              <option value="sport">Sport</option>
+              <option value="878">Sci-Fi</option>
               <option value="53">Thriller</option>
-              <option value="19752">War</option>
+              <option value="10752">War</option>
               <option value="37">Western</option>
             </select>
           </div>
