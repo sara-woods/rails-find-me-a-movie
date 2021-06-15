@@ -4,38 +4,51 @@ import Form from "./components/Form/Form";
 import Result from "./components/Result/Result";
 
 const selectedMovieReducer = (state, action) => {
-  
   switch (action.type) {
     case "NEW_MOVIE":
-      return { movie: action.val, runtime: state.runtime, trailer: state.trailer };
+      return {
+        movie: action.val,
+        runtime: state.runtime,
+        trailer: state.trailer,
+      };
     case "NEW_RUNTIME":
-      return { movie: state.movie, runtime: action.val, trailer: state.trailer };
+      return {
+        movie: state.movie,
+        runtime: action.val,
+        trailer: state.trailer,
+      };
     case "NEW_TRAILER":
-      return { movie: state.movie, runtime: state.runtime, trailer: action.val };
+      return {
+        movie: state.movie,
+        runtime: state.runtime,
+        trailer: action.val,
+      };
     default:
       return { movie: null, runtime: null, trailer: null };
   }
-}
+};
 
 const App = () => {
   const [movies, setMovies] = useState();
 
-  const [selectedMovieState, dispatchSelectedMovie] = useReducer(selectedMovieReducer, {movie: null, runtime: null, trailer: null });
+  const [selectedMovieState, dispatchSelectedMovie] = useReducer(
+    selectedMovieReducer,
+    { movie: null, runtime: null, trailer: null }
+  );
 
   const [movieIndex, setMovieIndex] = useState(0);
   const [moviePageIndex, setMoviePageIndex] = useState(1);
   const [totalPages, setTotalPages] = useState();
 
   const [error, setError] = useState(null);
-  
+
   const [showFilter, setShowFilter] = useState(false);
   const [filterData, setFilterData] = useState({});
-  
-  
+
   const getPopular = async () => {
     setError(null);
     try {
-      const response = await fetch("/api/v1/popular")
+      const response = await fetch("/api/v1/popular");
 
       if (!response.ok) {
         throw new Error("Something went wrong!");
@@ -53,19 +66,19 @@ const App = () => {
           length: null,
           poster_path: movie.poster_path,
           backdrop_path: movie.backdrop_path,
-          year: movie.release_date
-        }
-      })
-      
+          year: movie.release_date,
+        };
+      });
+
       chooseMovie(transformedMovies);
     } catch (errorThrown) {
       setError(errorThrown.message);
     }
-  }
+  };
 
-  useEffect(() => {
-    getPopular();
-  }, [])
+  // useEffect(() => {
+  //   getPopular();
+  // }, []);
 
   useEffect(() => {
     if (!movies) {
@@ -73,48 +86,48 @@ const App = () => {
     }
 
     if (movieIndex < movies.length - 1) {
-      setMovieIndex(prevState => prevState += 1);
+      setMovieIndex((prevState) => (prevState += 1));
     } else {
       setMovieIndex(0);
       setMovies(null);
       if (moviePageIndex < totalPages) {
-        setMoviePageIndex(prevState => prevState += 1);
+        setMoviePageIndex((prevState) => (prevState += 1));
       } else {
         setMoviePageIndex(1);
       }
     }
-  }, [selectedMovieState.movie])
+  }, [selectedMovieState.movie]);
 
   const getQueryString = (filterHash) => {
     let url = "";
 
     if (filterHash.yearFrom !== undefined || filterHash.yearTo !== undefined) {
-      url += `&primary_release_date.gte=`
+      url += `&primary_release_date.gte=`;
 
       if (filterHash.yearFrom !== undefined) {
-        url += `${filterHash.yearFrom}-01-01`
+        url += `${filterHash.yearFrom}-01-01`;
       }
 
-      url += "&primary_release_date.lte="
+      url += "&primary_release_date.lte=";
 
       if (filterHash.yearTo !== undefined) {
-        url += `${filterHash.yearTo}-01-01`
+        url += `${filterHash.yearTo}-01-01`;
       }
     }
 
     if (filterHash.rating !== undefined) {
-      url += `&vote_average.gte=${(+filterHash.rating).toFixed(1)}`
+      url += `&vote_average.gte=${(+filterHash.rating).toFixed(1)}`;
     }
 
     if (filterHash.genres && filterHash.genres.length !== 0) {
-      url += `&with_genres=${filterHash.genres.join(",")}`
+      url += `&with_genres=${filterHash.genres.join(",")}`;
     }
 
     return url;
-  }
+  };
 
   const newFilterDataHandler = (yearFrom, yearTo, genres, rating) => {
-    const newFilterInput = {yearFrom, yearTo, genres, rating};
+    const newFilterInput = { yearFrom, yearTo, genres, rating };
 
     setShowFilter(false);
 
@@ -128,7 +141,7 @@ const App = () => {
       }
     }
     generateButtonHandler();
-  }
+  };
 
   const generateButtonHandler = () => {
     if (!movies) {
@@ -136,7 +149,7 @@ const App = () => {
     } else {
       chooseMovie(movies);
     }
-  }
+  };
 
   const getMoviesRails = async (filterInput, pageIndex = moviePageIndex) => {
     const urlAddon = getQueryString(filterInput);
@@ -145,11 +158,11 @@ const App = () => {
     try {
       const response = await fetch("/api/v1/search", {
         method: "POST",
-        body: JSON.stringify({urlAddon: urlAddon, moviePageIndex: pageIndex}),
+        body: JSON.stringify({ urlAddon: urlAddon, moviePageIndex: pageIndex }),
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Something went wrong!");
@@ -170,72 +183,72 @@ const App = () => {
           genres: movie.genre_ids,
           poster_path: movie.poster_path,
           backdrop_path: movie.backdrop_path,
-          year: movie.release_date
-        }
-      })
+          year: movie.release_date,
+        };
+      });
 
       setTotalPages(data.total_pages);
       setMovies(transformedMovies);
       chooseMovie(transformedMovies, 0);
     } catch (errorThrown) {
       setMovies(null);
-      dispatchSelectedMovie({type: "NEW_MOVIE", val: null});
-      dispatchSelectedMovie({type: "NEW_RUNTIME", val: null});
-      dispatchSelectedMovie({type: "NEW_TRAILER", val: null});
+      dispatchSelectedMovie({ type: "NEW_MOVIE", val: null });
+      dispatchSelectedMovie({ type: "NEW_RUNTIME", val: null });
+      dispatchSelectedMovie({ type: "NEW_TRAILER", val: null });
       setError(errorThrown.message);
     }
-  }
+  };
 
   const getRunTimeRails = async (movieId) => {
     setError(null);
     try {
       const response = await fetch("/api/v1/runtime", {
         method: "POST",
-        body: JSON.stringify({movieId}),
+        body: JSON.stringify({ movieId }),
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
 
-      dispatchSelectedMovie({type: "NEW_RUNTIME", val: data.runtime})
+      dispatchSelectedMovie({ type: "NEW_RUNTIME", val: data.runtime });
     } catch {
-      dispatchSelectedMovie({type: "NEW_RUNTIME", val: null})
+      dispatchSelectedMovie({ type: "NEW_RUNTIME", val: null });
     }
-  }
+  };
 
   const getTrailerRails = async (movieId) => {
     setError(null);
     try {
       const response = await fetch("/api/v1/trailer", {
         method: "POST",
-        body: JSON.stringify({movieId}),
+        body: JSON.stringify({ movieId }),
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
+          "Content-Type": "application/json",
+        },
+      });
 
       const data = await response.json();
 
-      dispatchSelectedMovie({type: "NEW_TRAILER", val: data.results[0].key});
+      dispatchSelectedMovie({ type: "NEW_TRAILER", val: data.results[0].key });
     } catch {
-      dispatchSelectedMovie({type: "NEW_TRAILER", val: null});
+      dispatchSelectedMovie({ type: "NEW_TRAILER", val: null });
     }
-  }
+  };
 
   const chooseMovie = (moviesData, index = movieIndex) => {
     getRunTimeRails(moviesData[index].id);
     getTrailerRails(moviesData[index].id);
-    dispatchSelectedMovie({type: "NEW_MOVIE", val: moviesData[index]});
-  }
+    dispatchSelectedMovie({ type: "NEW_MOVIE", val: moviesData[index] });
+  };
 
   const showFilterHandler = () => {
     setShowFilter(true);
-  }
+  };
 
   const onCloseHandler = () => {
     setShowFilter(false);
-  }
+  };
 
   return (
     <div className="app">
@@ -243,15 +256,37 @@ const App = () => {
       <div className="subheader">
         <p>Don’t know what to watch? Get a movie suggested!</p>
       </div>
-      {showFilter && <Form onSubmit={newFilterDataHandler} filterData={filterData} onClose={onCloseHandler} />}
+      {showFilter && (
+        <Form
+          onSubmit={newFilterDataHandler}
+          filterData={filterData}
+          onClose={onCloseHandler}
+        />
+      )}
       <div className="movie-controls">
-        <button onClick={generateButtonHandler} className="btn btn-primary mt-3">GENERATE</button>
-        <button onClick={showFilterHandler} className="btn btn-outline-primary mt-3"><span>FILTER</span></button>
+        <button
+          onClick={generateButtonHandler}
+          className="btn btn-primary mt-3"
+        >
+          GENERATE
+        </button>
+        <button
+          onClick={showFilterHandler}
+          className="btn btn-outline-primary mt-3"
+        >
+          <span>FILTER</span>
+        </button>
       </div>
-      {selectedMovieState.movie && !error && <Result movie={selectedMovieState.movie} runtime={selectedMovieState.runtime} trailer={selectedMovieState.trailer}/>}
+      {selectedMovieState.movie && !error && (
+        <Result
+          movie={selectedMovieState.movie}
+          runtime={selectedMovieState.runtime}
+          trailer={selectedMovieState.trailer}
+        />
+      )}
       {error && <p className="mt-5">{error}</p>}
     </div>
   );
-}
+};
 
 export default App;
