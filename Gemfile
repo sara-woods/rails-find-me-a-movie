@@ -33,6 +33,7 @@ gem 'font-awesome-sass'
 gem 'simple_form'
 gem 'nokogiri', '~> 1.11', '>= 1.11.3'
 gem 'open-uri', '~> 0.1.0'
+gem 'rack-cors'
 
 group :development, :test do
   gem 'pry-byebug'
