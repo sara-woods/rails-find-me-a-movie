@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 const Form = (props) => {
-
   const [yearFrom, setYearFrom] = useState(props.filterData.yearFrom);
   const [yearTo, setYearTo] = useState(props.filterData.yearTo);
   const [genres, setGenres] = useState(props.filterData.genres);
@@ -9,76 +8,109 @@ const Form = (props) => {
 
   const formSubmitHandler = (event) => {
     event.preventDefault();
-    
+
     if (yearFrom > yearTo) {
       props.onSubmit(yearTo, yearFrom, genres, rating);
     } else {
       props.onSubmit(yearFrom, yearTo, genres, rating);
     }
-  }
+  };
 
   const yearFromChangedHandler = (event) => {
     setYearFrom(event.target.value);
-  }
+  };
 
   const yearToChangedHandler = (event) => {
     setYearTo(event.target.value);
-  }
+  };
 
   const genreChangedHandler = (event) => {
-    const genresInput = Array.from(event.target.selectedOptions, option => option.value);
+    const genresInput = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
     setGenres(genresInput);
-  }
+  };
 
   const ratingChangedHandler = (event) => {
     setRating(event.target.value);
-  }
+  };
 
   const getYearOptions = () => {
     const createOption = (t, v) => {
-      return <option key={t} value={v}>{t}</option>
-    }
+      return (
+        <option key={t} value={v}>
+          {t}
+        </option>
+      );
+    };
 
     const endYear = new Date().getFullYear();
     const yearOptions = [];
 
-    yearOptions.push(createOption("-", ""))
+    yearOptions.push(createOption("-", ""));
     for (let i = endYear; i >= 1900; i--) {
-      yearOptions.push(createOption(i, i))
+      yearOptions.push(createOption(i, i));
     }
 
     return yearOptions;
-  }
+  };
 
   return (
     <React.Fragment>
-      <div className="form-underlay" onClick={props.onClose}>
-      </div>
+      <div className="form-underlay" onClick={props.onClose}></div>
       <div className="form-container">
         <form onSubmit={formSubmitHandler}>
-
+          <p className="mb-0">Year</p>
           <div className="d-flex justify-content-between">
             <div className="form-group">
               <label htmlFor="year-from">From</label>
-              <select className="form-control" onChange={yearFromChangedHandler} id="year-from" value={yearFrom} >
+              <select
+                className="form-control"
+                onChange={yearFromChangedHandler}
+                id="year-from"
+                value={yearFrom}
+              >
                 {getYearOptions()}
               </select>
             </div>
 
             <div className="form-group">
               <label htmlFor="year-to">To</label>
-              <select className="form-control" onChange={yearToChangedHandler} id="year-to" value={yearTo} >
+              <select
+                className="form-control"
+                onChange={yearToChangedHandler}
+                id="year-to"
+                value={yearTo}
+              >
                 {getYearOptions()}
               </select>
             </div>
           </div>
 
-          <label htmlFor="customRange1">{`Minimum Rating: ${(+rating).toFixed(1)}`}</label>
-          <input type="range" min="0" max="9" step="0.5" className="custom-range" id="customRange1" onChange={ratingChangedHandler} value={rating} />
+          <label htmlFor="customRange1">{`Minimum Rating: ${(+rating).toFixed(
+            1
+          )}`}</label>
+          <input
+            type="range"
+            min="0"
+            max="9"
+            step="0.5"
+            className="custom-range"
+            id="customRange1"
+            onChange={ratingChangedHandler}
+            value={rating}
+          />
 
           <div className="form-group">
             <label htmlFor="genres">Genres</label>
-            <select className="form-control" onChange={genreChangedHandler} id="genres" multiple={true} value={genres} >
+            <select
+              className="form-control"
+              onChange={genreChangedHandler}
+              id="genres"
+              multiple={true}
+              value={genres}
+            >
               <option value="28">Action</option>
               <option value="12">Adventure</option>
               <option value="16">Animation</option>
@@ -100,13 +132,19 @@ const Form = (props) => {
             </select>
           </div>
 
-            <button className="btn btn-primary btn-block" type="submit">GENERATE</button>
-            <button className="btn btn-outline-primary btn-block" onClick={props.onClose}>CANCEL</button>
-        
+          <button className="btn btn-primary btn-block" type="submit">
+            GENERATE
+          </button>
+          <button
+            className="btn btn-outline-primary btn-block"
+            onClick={props.onClose}
+          >
+            CANCEL
+          </button>
         </form>
       </div>
     </React.Fragment>
   );
-}
+};
 
 export default Form;
