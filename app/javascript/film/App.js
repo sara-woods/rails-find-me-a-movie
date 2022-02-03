@@ -76,9 +76,10 @@ const App = () => {
     }
   };
 
-  // useEffect(() => {
-  //   getPopular();
-  // }, []);
+  // When user first lands on page, populate page with a popular movie
+  useEffect(() => {
+    getPopular();
+  }, []);
 
   useEffect(() => {
     if (!movies) {
