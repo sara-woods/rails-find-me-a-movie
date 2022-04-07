@@ -61,7 +61,7 @@ const Form = (props) => {
       <div className="form-underlay" onClick={props.onClose}></div>
       <div className="form-container">
         <form onSubmit={formSubmitHandler}>
-          <p className="mb-0">Year</p>
+          <p className="mb-0 mt-4 form-header">Year</p>
           <div className="d-flex justify-content-between">
             <div className="form-group">
               <label htmlFor="year-from">From</label>
@@ -87,10 +87,8 @@ const Form = (props) => {
               </select>
             </div>
           </div>
-
-          <label htmlFor="customRange1">{`Minimum Rating: ${(+rating).toFixed(
-            1
-          )}`}</label>
+          <p className="form-header mb-1 mt-4">Minimum rating</p>
+          <label htmlFor="customRange1">{(+rating).toFixed(1)}</label>
           <input
             type="range"
             min="0"
@@ -103,7 +101,7 @@ const Form = (props) => {
           />
 
           <div className="form-group">
-            <label htmlFor="genres">Genres</label>
+            <label htmlFor="genres" className="form-header mt-4">Genres</label>
             <select
               className="form-control"
               onChange={genreChangedHandler}

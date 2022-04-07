@@ -43,7 +43,7 @@ class Api::V1::FilmsController < Api::V1::BaseController
   end
 
   def popular
-    url = "https://api.themoviedb.org/3/trending/all/day?api_key=#{ENV['REACT_APP_TMDB_API_KEY']}&language=en-US"
+    url = "https://api.themoviedb.org/3/trending/movies/day?api_key=#{ENV['REACT_APP_TMDB_API_KEY']}&language=en-US"
 
     uri = URI(url)
     res = Net::HTTP.get_response(uri)

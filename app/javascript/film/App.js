@@ -57,9 +57,10 @@ const App = () => {
       const data = await response.json();
 
       const transformedMovies = data.results.map((movie) => {
+        const title = movie.title || movie.original_title || movie.original_name;
         return {
           id: movie.id,
-          title: movie.title,
+          title: title,
           description: movie.overview,
           rating: movie.vote_average,
           genres: movie.genre_ids,
