@@ -7,6 +7,7 @@
   min-height: 450px;
   height: fit-content;
   display: flex;
+  opacity: 0.9;
 }
 
 .movie-poster-container {
@@ -19,22 +20,17 @@
 }
 
 .movie-info {
-  padding: 26px;
+  padding: 24px;
   width: 60%;
-}
-
-.year-runtime {
-  font-weight: 200;
 }
 
 .genre {
   width: fit-content;
-  border-radius: 9999px;
-  padding: 2px 16px;
+  border-radius: 30px;
+  padding: 0.125rem 1rem;
   border: 1px solid white;
-  margin-right: 8px;
-  margin-bottom: 10px;
-  font-size: 14px;
+  margin: 0.2rem;
+  font-size: 1rem;
 }
 
 .movie-info-bottom {
@@ -44,11 +40,15 @@
   p {
     margin: 0;
     line-height: 1;
-    font-size: 20px;
+    font-size: 0.8rem;
   }
 
   .rating {
-    font-size: 40px;
+    font-size: 1.625rem;
+  }
+
+  .rating-bold {
+    font-weight: 600;
   }
 }
 

@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>What Movie?</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>What movie to watch? | Generate a random movie!</title>
+    <meta name="title" content="What movie to watch? | Generate a random movie!">
+    <meta name="description" content="For those times when we can't come up with or agree on a movie to watch, generate a random one! Here you also have easy access to watch the trailer on Youtube and filter the results on year or genre. Get your pick now!">
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://whatmovieapp.herokuapp.com">
+    <meta property="og:title" content="What movie to watch? | Generate a random movie!">
+    <meta property="og:description" content="For those times when we can't come up with or agree on a movie to watch, generate a random one! Here you also have easy access to watch the trailer on Youtube and filter the results on year or genre. Get your pick now!">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1616530940355-351fabd9524b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://whatmovieapp.herokuapp.com">
+    <meta property="twitter:title" content="What movie to watch? | Generate a random movie!">
+    <meta property="twitter:description" content="For those times when we can't come up with or agree on a movie to watch, generate a random one! Here you also have easy access to watch the trailer on Youtube and filter the results on year or genre. Get your pick now!">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1616530940355-351fabd9524b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80">
+
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
+    <meta name="google-site-verification" content="YjJRbJg1TQO77EOucNfoV4K7h7a5f9nII_ul601euqY" />
+    <%= favicon_link_tag asset_path('favicon.ico') %>
   </head>
 
   <body>

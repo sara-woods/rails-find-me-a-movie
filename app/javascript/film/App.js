@@ -252,8 +252,12 @@ const App = () => {
     setShowFilter(false);
   };
 
+  let bgStyle = {
+    backgroundImage: `url(https://image.tmdb.org/t/p/w500/${selectedMovieState?.movie?.poster_path})`,
+  };
+
   return (
-    <div className="app">
+    <div className="app" >
       <h1>WHAT MOVIE?</h1>
       <div className="subheader">
         <p>Don’t know what to watch? Get a movie suggested!</p>
@@ -268,17 +272,18 @@ const App = () => {
       <div className="movie-controls">
         <button
           onClick={generateButtonHandler}
-          className="btn btn-primary mt-3"
+          className="btn btn-primary mt-5 mb-3"
         >
-          GENERATE
+          Generate
         </button>
-        <button
+        {/* <button
           onClick={showFilterHandler}
           className="btn btn-outline-primary mt-3"
         >
-          <span>FILTER</span>
-        </button>
+          <span>Filter</span>
+        </button> */}
       </div>
+      <a onClick={showFilterHandler} className="filter">Filter</a>
       {selectedMovieState.movie && !error && (
         <Result
           movie={selectedMovieState.movie}

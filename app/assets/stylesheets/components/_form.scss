@@ -6,10 +6,15 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 10;
 }
+
 .form-container {
   width: 250px;
-  background-color: rgb(255, 255, 255);
+  // background-color: rgb(255, 255, 255);
+  // color: $dark-gray;
+  background-color: #2F2F3B;
+  color: white;
   padding: 20px;
   border-radius: 20px;
   position: fixed;
@@ -17,9 +22,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
-  color: $dark-gray;
   .btn-outline-primary {
-    color: $pink;
     &:hover {
       color: white;
       background-color: $pink;
@@ -31,6 +34,14 @@
   font-weight: 500;
 }
 
+.form-control {
+  background-color: #85879c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
 
-
-
+.form-control:focus {
+  background-color: #85879c;
+  color: white;
+}

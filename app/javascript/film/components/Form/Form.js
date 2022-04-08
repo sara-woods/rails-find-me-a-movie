@@ -57,32 +57,34 @@ const Form = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <div className="form-underlay" onClick={props.onClose}></div>
       <div className="form-container">
         <form onSubmit={formSubmitHandler}>
-          <p className="mb-0 mt-4 form-header">Year</p>
+          <label className="form-header mb-2 mt-2">Year</label>
           <div className="d-flex justify-content-between">
             <div className="form-group">
-              <label htmlFor="year-from">From</label>
               <select
                 className="form-control"
                 onChange={yearFromChangedHandler}
                 id="year-from"
                 value={yearFrom}
+                aria-label="Year from"
               >
+                <option value="" disabled selected>From</option>
                 {getYearOptions()}
               </select>
             </div>
 
             <div className="form-group">
-              <label htmlFor="year-to">To</label>
               <select
                 className="form-control"
                 onChange={yearToChangedHandler}
                 id="year-to"
                 value={yearTo}
+                aria-label="Year to"
               >
+                <option value="" disabled selected>To</option>
                 {getYearOptions()}
               </select>
             </div>
@@ -130,18 +132,18 @@ const Form = (props) => {
             </select>
           </div>
 
-          <button className="btn btn-primary btn-block" type="submit">
-            GENERATE
+          <button className="btn btn-primary btn-block mt-4" type="submit">
+            Generate
           </button>
           <button
             className="btn btn-outline-primary btn-block"
             onClick={props.onClose}
           >
-            CANCEL
+            Cancel
           </button>
         </form>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 
