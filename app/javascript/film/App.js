@@ -45,41 +45,9 @@ const App = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [filterData, setFilterData] = useState({});
 
-  const getPopular = async () => {
-    setError(null);
-    try {
-      const response = await fetch("/api/v1/popular");
-
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-
-      const data = await response.json();
-
-      const transformedMovies = data.results.map((movie) => {
-        const title = movie.title || movie.original_title || movie.original_name;
-        return {
-          id: movie.id,
-          title: title,
-          description: movie.overview,
-          rating: movie.vote_average,
-          genres: movie.genre_ids,
-          length: null,
-          poster_path: movie.poster_path,
-          backdrop_path: movie.backdrop_path,
-          year: movie.release_date,
-        };
-      });
-
-      chooseMovie(transformedMovies);
-    } catch (errorThrown) {
-      setError(errorThrown.message);
-    }
-  };
-
-  // When user first lands on page, populate page with a popular movie
+  // When user first lands on page, populate page with a movie
   useEffect(() => {
-    getPopular();
+    getMoviesRails(filterData);
   }, []);
 
   useEffect(() => {
