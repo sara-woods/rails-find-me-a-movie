@@ -6,7 +6,7 @@ Generate a random movie! Can also be based on your filter options on release yea
 
 **Visit it here**: [What Movie?](https://whatmovieapp.herokuapp.com)
 
-**Designed and developed by**: 👩🏻‍💻[Sara Lotfi](https://github.com/saralotfi)
+**Designed and developed by**: 👩🏻‍💻[Sara Woods](https://github.com/sara-woods)
 
 # Motivation
 I wanted to code a personal project to practise what I have been learning while studying React. Every weekend me and my partner watch a movie. Choosing a movie can be difficult and time-consuming, as there is a lot of choice out there. This motivated me to create an easy-to-use app which simplifies the process.
