@@ -4,7 +4,7 @@
 Generate a random movie! Can also be based on your filter options on release year, rating and genres.
 <br>
 
-**Visit it here**: [What Movie?](https://whatmovieapp.herokuapp.com)
+**Visit it here**: [What Movie?](https://whatmovie.fly.dev)
 
 **Designed and developed by**: 👩🏻‍💻[Sara Woods](https://github.com/sara-woods)
 
