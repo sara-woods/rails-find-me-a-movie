@@ -117,4 +117,12 @@ Rails.application.configure do
   # config.active_record.database_selector = { delay: 2.seconds }
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
+  # v6, Rails has introduced a new ActionDispatch::HostAuthorization middleware
+  # to prevent DNS rebinding attacks.
+  # This middleware is controlled by a new hosts configuration to specify what hosts
+  # the server will respond to
+  config.hosts = [
+    "whatmovie.fly.dev"
+  ]
 end
