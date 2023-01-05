@@ -113,7 +113,6 @@ GEM
     nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
     open-uri (0.1.0)
-    pg (1.2.3)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -234,7 +233,6 @@ DEPENDENCIES
   listen (~> 3.3)
   nokogiri (~> 1.11, >= 1.11.3)
   open-uri (~> 0.1.0)
-  pg (~> 1.1)
   pry-byebug
   pry-rails
   puma (~> 5.0)
