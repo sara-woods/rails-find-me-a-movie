@@ -226,7 +226,7 @@ const App = () => {
   };
 
   return (
-    <div className="app" >
+    <div className="app">
       <div className="subheader">
         <p>Don’t know what to watch?</p>
       </div>
