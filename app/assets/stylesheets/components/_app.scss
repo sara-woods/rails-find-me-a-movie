@@ -5,7 +5,7 @@
 }
 
 .movie-controls {
-  margin: 0 auto;
+  margin: 24px auto 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,32 +35,9 @@ h2 {
   }
 }
 
-.filter {
-  text-decoration: underline;
-  font-size: 1.25rem;
-  font-weight: 300;
-  cursor: pointer;
-}
-
-.filter:hover {
-  text-decoration: underline;
-  color: #FF4D62;
-}
-
 @media screen and (max-width: 800px) {
   .app {
     width: 90%;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .movie-controls {
-    flex-direction: row;
-    justify-content: center;
-    width: 70%;
-    button {
-      margin: 0 8px;
-    }
   }
 }
 
@@ -81,7 +58,11 @@ h2 {
 }
 
 @media screen and (max-width: 600px) {
-
+  .movie-controls {
+      button {
+        height: 45px;
+      }
+    }
   .subheader {
     p {
       font-size: 0.875rem;
@@ -94,4 +75,14 @@ h2 {
         width: 30px;
       }
   }
+}
+
+@media screen and (max-width: 330px) {
+  .movie-controls {
+    flex-direction: column;
+    .btn:nth-child(1) {
+      margin-bottom: 8px;
+      width: 100%;
+    }
+    }
 }

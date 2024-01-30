@@ -27,7 +27,7 @@ const Result = (props) => {
 
   return (
     <div className="result-container mt-5 mb-5">
-      
+
       <div
         className="movie-poster-container"
         style={poster_path ? posterStyle : noPosterStyle}
@@ -67,8 +67,19 @@ const Result = (props) => {
               href={`https://www.youtube.com/watch?v=${props.trailer}`}
               target="_blank"
               rel="noreferrer noopener"
-              className="btn btn-primary btn-trailer"
+              className="btn btn-secondary btn-trailer"
             > Watch trailer
+              <svg className="arrow-right" width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_327_180)">
+                  <path d="M19 12H5.39904" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M13.2308 6.5L19 12L13.2308 17.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_327_180">
+                    <rect width="24" height="24" fill="white" transform="translate(0 0.5)" />
+                  </clipPath>
+                </defs>
+              </svg>
             </a>
           )}
         </div>
