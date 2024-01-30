@@ -3,6 +3,13 @@
   font-size: 1.25rem;
   padding: 0.375rem 1.75rem;
   transition: all 0.2s ease-in;
+  height: 60px;
+}
+
+.generate-btn {
+  width: 227px;
+  box-shadow: 0px 8px 16px rgba(228, 35, 105, 0.3);
+  margin-right: 12px;
 }
 
 .btn-outline-primary {
@@ -15,5 +22,3 @@
 .btn-trailer {
   font-size: 1rem;
 }
-
-
