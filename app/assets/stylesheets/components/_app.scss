@@ -14,7 +14,6 @@
 h1 {
   font-size: 3.75rem;
   font-weight: 900;
-  margin-top: 0.5rem;
   margin-bottom: 0;
   img {
     width: 50px;
@@ -27,7 +26,6 @@ h2 {
 }
 
 .subheader {
-  width: 450px;
   margin: 0 auto;
   p {
     margin: 0;
@@ -64,12 +62,36 @@ h2 {
       margin: 0 8px;
     }
   }
+}
+
+@media screen and (max-width: 740px) {
 
   .subheader {
-    width: 100%;
+    p {
+      font-size: 1rem;
+    }
   }
 
   h1 {
-    font-size: 4rem;
+    font-size: 3rem;
+    img {
+      width: 40px;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+
+  .subheader {
+    p {
+      font-size: 0.875rem;
+    }
+  }
+
+  h1 {
+    font-size: 1.5rem;
+      img {
+        width: 30px;
+      }
   }
 }
