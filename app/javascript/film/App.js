@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Form from "./components/Form/Form";
 import Result from "./components/Result/Result";
+import popcorn from "../../assets/images/popcorn.png";
 
 const selectedMovieReducer = (state, action) => {
   switch (action.type) {
@@ -226,10 +227,10 @@ const App = () => {
 
   return (
     <div className="app" >
-      <h1>WHAT MOVIE?</h1>
       <div className="subheader">
-        <p>Don’t know what to watch? Get a movie suggested!</p>
+        <p>Don’t know what to watch?</p>
       </div>
+      <h1>GENERATE A MOVIE<span><img src={popcorn}/></span></h1>
       {showFilter && (
         <Form
           onSubmit={newFilterDataHandler}
