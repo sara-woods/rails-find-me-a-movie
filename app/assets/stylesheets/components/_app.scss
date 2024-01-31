@@ -29,9 +29,8 @@ h2 {
 }
 
 .subheader {
-  margin: 0 auto;
   p {
-    margin: 0;
+    margin: 32px auto 0 auto;
     font-size: 1.25rem;
     text-align: center;
     color: $text-secondary;
@@ -69,6 +68,7 @@ h2 {
   .subheader {
     p {
       font-size: 0.875rem;
+      margin: 20px auto 0 auto;
     }
   }
 
