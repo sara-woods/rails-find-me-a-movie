@@ -29,12 +29,13 @@
   margin-bottom: 0.5rem;
 }
 
+
 .genre {
   width: fit-content;
   border-radius: 30px;
   padding: 0.125rem 1rem;
   border: 1px solid white;
-  margin: 0.2rem;
+  margin: 0.2rem 0.4rem 0.2rem 0;
   font-size: 0.875rem;
 }
 
@@ -68,5 +69,6 @@
 
   .genre {
     font-size: 0.75rem !important;
+    line-height: 1.1rem;
   }
 }

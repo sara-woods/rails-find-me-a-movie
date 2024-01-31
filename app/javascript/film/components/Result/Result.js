@@ -47,7 +47,7 @@ const Result = (props) => {
         <p id="movie-data">{rating !== 0 && star}{rating !== 0 && ` ${rating} · `}{year && `${year.substr(0, 4)} · `}{!!props.runtime && movieLength}</p>
 
         {genres && (
-          <div className="d-flex flex-wrap">
+          <div className="d-flex flex-wrap genre-group">
             {genres.map((genre) => (
               <p key={genre} className="genre">
                 {genresIds[genre]}
