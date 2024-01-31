@@ -3,6 +3,16 @@
   font-size: 1.25rem;
   padding: 0.375rem 1.75rem;
   transition: all 0.2s ease-in;
+  height: 60px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.generate-btn {
+  width: 227px;
+  box-shadow: 0px 8px 16px rgba(228, 35, 105, 0.3);
+  margin-right: 12px;
 }
 
 .btn-outline-primary {
@@ -13,7 +23,33 @@
 }
 
 .btn-trailer {
+  background-color: rgba(136, 127, 157, 0.3);
+  border: none;
+  height: 50px;
   font-size: 1rem;
+  margin-bottom: -3px;
+  .arrow-right {
+    margin-left: 8px;
+    margin-bottom: -3px;
+  }
 }
 
+.form-container {
+  .btn {
+    height: 50px;
+    font-size: 1rem;
+  }
+}
 
+@media screen and (max-width: 600px) {
+    .btn {
+      height: 45px;
+      font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 350px) {
+  .btn-trailer {
+    flex-grow: 1;
+  }
+}

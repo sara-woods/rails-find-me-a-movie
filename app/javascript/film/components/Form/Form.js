@@ -56,10 +56,23 @@ const Form = (props) => {
     return yearOptions;
   };
 
+  const close = <svg className="close-button" onClick={props.onClose} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_322_870)">
+                    <path d="M7.23828 7.40186L16.7617 16.5979M16.7617 7.40186L7.23828 16.5979L16.7617 7.40186Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_322_870">
+                      <rect width="24" height="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+
   return (
     <>
       <div className="form-underlay" onClick={props.onClose}></div>
       <div className="form-container">
+        <h3>Filters</h3>
+        {close}
         <form onSubmit={formSubmitHandler}>
           <label className="form-header mb-2 mt-2">Year</label>
           <div className="d-flex justify-content-between">
@@ -89,6 +102,7 @@ const Form = (props) => {
               </select>
             </div>
           </div>
+
           <p className="form-header mb-1 mt-4">Minimum rating</p>
           <label htmlFor="customRange1">{(+rating).toFixed(1)}</label>
           <input
@@ -100,7 +114,7 @@ const Form = (props) => {
             id="customRange1"
             onChange={ratingChangedHandler}
             value={rating}
-          />
+            />
 
           <div className="form-group">
             <label htmlFor="genres" className="form-header mt-4">Genres</label>

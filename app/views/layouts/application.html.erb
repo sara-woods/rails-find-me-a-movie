@@ -5,7 +5,7 @@
     <title>What movie to watch? | Generate a random movie!</title>
     <meta name="title" content="What movie to watch? | Generate a random movie!">
     <meta name="description" content="For those times when we can't come up with or agree on a movie to watch, generate a random one! Here you also have easy access to watch the trailer on Youtube and filter the results on year or genre. Get your pick now!">
-    
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -30,7 +30,8 @@
 
   <body>
     <div class="d-flex flex-column min-vh-100">
-      <div class="flex-grow-1 min-vh-100">
+      <div class="flex-grow-1 min-vh-100 main-content">
+        <img class="gradient" src="<%= asset_path('gradient.png') %>"/>
         <%= yield %>
       </div>
       <footer class="d-flex justify-content-center">
