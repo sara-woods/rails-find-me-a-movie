@@ -81,6 +81,12 @@ h2 {
   h2 {
     font-size: 1.25rem;
   }
+  .movie-controls {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+  }
 }
 
 @media screen and (max-width: 330px) {
