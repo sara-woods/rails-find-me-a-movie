@@ -16,6 +16,7 @@ const Result = (props) => {
 
   const hours = Math.floor(props.runtime / 60);
   const minutes = props.runtime % 60;
+  const ratingFloor = Math.round(rating * 10) / 10;
 
   let posterStyle = {
     backgroundImage: `url(https://image.tmdb.org/t/p/w500/${poster_path})`,
@@ -44,7 +45,7 @@ const Result = (props) => {
         <a href={movie_url} target="_blank" rel="noreferrer noopener">
           {title && <h2>{title.toUpperCase()}</h2>}
         </a>
-        <p id="movie-data">{rating !== 0 && star}{rating !== 0 && ` ${rating} · `}{year && `${year.substr(0, 4)} · `}{!!props.runtime && movieLength}</p>
+        <p id="movie-data">{ratingFloor !== 0 && star}{ratingFloor !== 0 && ` ${ratingFloor} · `}{year && `${year.substr(0, 4)} · `}{!!props.runtime && movieLength}</p>
 
         {genres && (
           <div className="d-flex flex-wrap genre-group">
